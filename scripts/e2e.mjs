@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
@@ -17,6 +17,10 @@ try {
   writeFileSync(join(work, 'package.json'), JSON.stringify({ name: 'e2e', private: true, type: 'module' }))
   const init = run(process.execPath, [cli, 'init', 'demo', '--kit', `file:${root}`], work)
   if (init.status !== 0) throw new Error(`init 失敗:\n${init.stderr}`)
+  // Chart（CSVモード）のアドオン登録とCSVコピーを検証する。
+  writeFileSync(join(work, 'demo', 'data', 'trend.csv'), 'month,value\n1月,10\n2月,20\n')
+  const slides = readFileSync(join(work, 'demo', 'slides.md'), 'utf8')
+  writeFileSync(join(work, 'demo', 'slides.md'), `${slides}\n---\nlayout: content\ntitle: Chart\n---\n\n<Chart src="data/trend.csv" type="line" />\n`)
   const install = run('npm', ['install', '--ignore-scripts'], join(work, 'demo'))
   if (install.status !== 0) throw new Error(`install 失敗:\n${install.stderr}`)
   const build = run('npx', ['slidev-kit', 'build', 'slides.md'], join(work, 'demo'))

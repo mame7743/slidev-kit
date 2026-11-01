@@ -1,6 +1,6 @@
 {
   "name": "slidev-kit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -16,7 +16,8 @@
   },
   "exports": {
     "./package.json": "./package.json",
-    "./packages/slidev-agent/src/tools.mjs": "./packages/slidev-agent/src/tools.mjs"
+    "./packages/slidev-agent/src/tools.mjs": "./packages/slidev-agent/src/tools.mjs",
+    "./check": "./packages/slidev-kit/scripts/check.mjs"
   },
   "dependencies": {
     "@earendil-works/pi-agent-core": "1.4.0",
@@ -25,13 +26,17 @@
   },
   "devDependencies": {
     "@slidev/cli": "53.0.0",
-    "@slidev/theme-default": "^0.25.0",
     "@types/node": "22.20.5",
-    "vitest": "5.0.5"
+    "vitest": "5.0.5",
+    "vue": "3.5.24",
+    "@slidev/types": "53.0.0",
+    "typescript": "6.0.3",
+    "vue-tsc": "3.3.13"
   },
   "scripts": {
     "test": "vitest run",
-    "verify": "npm test",
+    "typecheck": "vue-tsc --noEmit",
+    "verify": "npm test && npm run typecheck",
     "e2e": "node scripts/e2e.mjs"
   }
 }

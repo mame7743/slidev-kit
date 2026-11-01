@@ -160,7 +160,7 @@ my-report/
 
 ## テーマ
 
-`slidev-kit` はテーマを含みません。同梱の `default` テンプレートはSlidev標準テーマ（`theme: default`）を使う中立版で、単独で動作します。テーマや会社標準テンプレートを別に用意して `--template` / `--theme` で指定してください。
+`slidev-kit` はテーマを含みません。同梱の `default` テンプレートはSlidev標準テーマ（`theme: slidev-kit`）を使う中立版で、単独で動作します。テーマや会社標準テンプレートを別に用意して `--template` / `--theme` で指定してください。
 
 ```yaml
 ---

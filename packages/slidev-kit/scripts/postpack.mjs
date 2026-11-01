@@ -4,6 +4,6 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-for (const name of ['slidev-agent', 'slidev-report']) {
+for (const name of ['slidev-agent', 'slidev-charts', 'slidev-report']) {
   rmSync(join(root, 'node_modules', name), { recursive: true, force: true })
 }

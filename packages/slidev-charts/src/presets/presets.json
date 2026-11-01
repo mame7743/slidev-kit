@@ -1,0 +1,50 @@
+{
+  "bar-compare": {
+    "chart": "bar",
+    "schema": "category",
+    "x": "category",
+    "y": "value",
+    "description": "項目別の比較"
+  },
+  "target-trend": {
+    "chart": "line",
+    "schema": "target",
+    "x": "period",
+    "y": "actual",
+    "series": [
+      "actual",
+      "target"
+    ],
+    "description": "実績と目標の推移",
+    "labels": {
+      "actual": "実績",
+      "target": "目標"
+    },
+    "dash": [
+      "target"
+    ]
+  },
+  "grouped-bar": {
+    "chart": "grouped-bar",
+    "schema": "timeseries",
+    "x": "period",
+    "y": "value",
+    "group": "series",
+    "description": "複数系列の集合棒"
+  },
+  "stacked-bar": {
+    "chart": "stacked-bar",
+    "schema": "timeseries",
+    "x": "period",
+    "y": "value",
+    "group": "series",
+    "description": "構成比の積み上げ棒"
+  },
+  "donut": {
+    "chart": "donut",
+    "schema": "category",
+    "x": "category",
+    "y": "value",
+    "description": "構成比のドーナツ"
+  }
+}

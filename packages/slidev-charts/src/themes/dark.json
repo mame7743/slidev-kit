@@ -1,0 +1,36 @@
+{
+  "name": "dark",
+  "colors": {
+    "accent": "#7CC4FF",
+    "sub": "#9FB3C2",
+    "palette": [
+      "#7CC4FF",
+      "#9FB3C2",
+      "#5DA57A",
+      "#E8C98A",
+      "#E3AAB3",
+      "#4F8FC4"
+    ],
+    "grid": "#3B4C59",
+    "background": "#0F1820",
+    "text": "#E8F1F7"
+  },
+  "fontFamily": [
+    "Meiryo UI",
+    "Meiryo",
+    "Yu Gothic",
+    "Hiragino Sans",
+    "Noto Sans CJK JP",
+    "Arial",
+    "DejaVu Sans"
+  ],
+  "fontSize": 12,
+  "titleSize": 15,
+  "lineWidth": 2,
+  "gridWidth": 0.6,
+  "figureSize": [
+    8,
+    4.5
+  ],
+  "padding": 0.12
+}

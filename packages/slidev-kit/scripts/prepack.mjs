@@ -9,6 +9,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const workspace = resolve(root, '..')
 const packages = {
   'slidev-agent': ['package.json', 'README.md', 'src'],
+  'slidev-charts': ['package.json', 'README.md', 'components', 'src', 'python', 'templates', 'vite.config.ts'],
   'slidev-report': ['package.json', 'README.md', 'src'],
 }
 
