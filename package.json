@@ -37,6 +37,27 @@
     "test": "vitest run",
     "typecheck": "vue-tsc --noEmit",
     "verify": "npm test && npm run typecheck",
-    "e2e": "node scripts/e2e.mjs"
+    "e2e": "node scripts/e2e.mjs",
+    "postinstall": "node scripts/sync-theme.mjs"
+  },
+  "slidev": {
+    "defaults": {
+      "aspectRatio": "16/9",
+      "canvasWidth": 1280,
+      "colorSchema": "light",
+      "themeConfig": {
+        "variant": "default",
+        "organization": "",
+        "department": "",
+        "classification": ""
+      },
+      "fonts": {
+        "sans": "Arial",
+        "local": "Arial"
+      },
+      "drawings": {
+        "persist": false
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "slidev-kit",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": false,
   "type": "module",
   "engines": {
@@ -77,5 +77,25 @@
     "slidev-kit",
     "cli",
     "agent"
-  ]
+  ],
+  "slidev": {
+    "defaults": {
+      "aspectRatio": "16/9",
+      "canvasWidth": 1280,
+      "colorSchema": "light",
+      "themeConfig": {
+        "variant": "default",
+        "organization": "",
+        "department": "",
+        "classification": ""
+      },
+      "fonts": {
+        "sans": "Arial",
+        "local": "Arial"
+      },
+      "drawings": {
+        "persist": false
+      }
+    }
+  }
 }

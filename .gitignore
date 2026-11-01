@@ -6,3 +6,11 @@ dist/
 public/data/
 .DS_Store
 *.tgz
+
+/layouts
+/interface
+/designs
+/components
+/composables
+/lib
+/setup
