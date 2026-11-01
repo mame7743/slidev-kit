@@ -164,7 +164,7 @@ my-report/
 
 ```yaml
 ---
-theme: default
+theme: slidev-kit
 title: 資料タイトル
 ---
 ```
