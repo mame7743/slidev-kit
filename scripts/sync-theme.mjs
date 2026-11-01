@@ -8,7 +8,7 @@ const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const source = join(root, 'packages', 'slidev-kit')
 if (!existsSync(source)) process.exit(0)
 
-for (const dir of ['layouts', 'interface', 'designs', 'components', 'composables', 'lib', 'setup']) {
+for (const dir of ['layouts', 'interface', 'designs', 'components', 'composables', 'lib', 'setup', 'vite.config.ts']) {
   const target = join(root, dir)
   if (existsSync(target)) continue
   symlinkSync(join('packages', 'slidev-kit', dir), target, process.platform === 'win32' ? 'junction' : 'dir')

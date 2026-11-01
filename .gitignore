@@ -14,3 +14,4 @@ public/data/
 /composables
 /lib
 /setup
+/vite.config.ts

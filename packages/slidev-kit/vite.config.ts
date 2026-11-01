@@ -1,8 +1,52 @@
+import { existsSync, readdirSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
-import { slidevCharts } from 'slidev-charts'
 import { templateCharts } from './scripts/vite-plugin-charts.mjs'
 
-// slidev-kit はテーマ兼アドオン。Slidev がこの vite.config を自動で読み込む。
-export default defineConfig({
-  plugins: [templateCharts(), slidevCharts()],
+// slidev-charts の場所: npm同梱 / gitツリー / 開発リポジトリのいずれか。
+const packageRoot = dirname(fileURLToPath(import.meta.url))
+function chartsRoot() {
+  const candidates = [
+    resolve(process.cwd(), 'node_modules', 'slidev-kit', 'packages', 'slidev-charts'),
+    join(packageRoot, 'node_modules', 'slidev-charts'),
+    resolve(packageRoot, '..', 'slidev-charts'),
+  ]
+  const found = candidates.find((path) => existsSync(path))
+  if (!found) throw new Error('slidev-charts が見つかりません。')
+  return found
+}
+
+// プロジェクト内 designs/<variant>/index.ts を解決する仮想モジュール。
+function projectDesigns() {
+  return {
+    name: 'slidev-kit-designs',
+    resolveId(id) {
+      if (id === 'virtual:slidev-kit-designs') return '\0virtual:slidev-kit-designs'
+    },
+    load(id) {
+      if (id !== '\0virtual:slidev-kit-designs') return
+      const dir = resolve(process.cwd(), 'designs')
+      const variants = existsSync(dir)
+        ? readdirSync(dir, { withFileTypes: true }).filter((entry) => entry.isDirectory()).map((entry) => entry.name)
+        : []
+      const imports = variants
+        .map((variant, index) => `import * as d${index} from ${JSON.stringify(resolve(dir, variant, 'index.ts'))}`)
+        .join('\n')
+      return `${imports}\nexport default { ${variants.map((variant, index) => `${JSON.stringify(variant)}: d${index}.default`).join(', ')} }`
+    },
+  }
+}
+
+export default defineConfig(async () => {
+  const { slidevCharts } = await import(join(chartsRoot(), 'src', 'vite', 'plugin.mjs'))
+  return {
+    resolve: {
+      alias: {
+        // SFCからの import 'slidev-charts/...' を同梱位置へ向ける。
+        'slidev-charts': chartsRoot(),
+      },
+    },
+    plugins: [projectDesigns(), templateCharts(), slidevCharts()],
+  }
 })
