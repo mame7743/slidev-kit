@@ -1,0 +1,14 @@
+{
+  "name": "corporate",
+  "description": "社内標準デザインライブラリを使う報告デッキ",
+  "modes": ["project"],
+  "tokens": ["name", "title", "slidevVersion", "kitDep", "designDep"],
+  "prompts": [
+    {
+      "token": "designDep",
+      "label": "共有デザインの GitHub 依存（固定タグ）",
+      "default": "github:YOUR_ORG/slidev-designs#v1.0.0"
+    }
+  ],
+  "scaffoldFiles": ["package.json", "vite.config.ts", ".npmrc", ".gitignore", "README.md"]
+}

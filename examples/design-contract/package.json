@@ -1,0 +1,31 @@
+{
+  "name": "slidev-kit-design-contract-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev-kit slides.md --open",
+    "check": "slidev-kit build --check-only slides.md",
+    "build": "slidev-kit build slides.md",
+    "pdf": "slidev-kit pdf slides.md --output exports/design-contract.pdf"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^53.0.0",
+    "playwright-chromium": "^1.61.0",
+    "slidev-kit": "github:mame7743/slidev-kit#main"
+  },
+  "slidev": {
+    "addons": ["slidev-kit"],
+    "themeConfig": {
+      "variant": "acme",
+      "organization": "Example Inc.",
+      "department": "企画部",
+      "classification": "社外秘",
+      "documentId": "DESIGN-001",
+      "revision": "Rev.1",
+      "page": {
+        "header": { "enabled": true, "title": true, "section": true, "organization": true, "classification": true },
+        "footer": { "enabled": true, "department": true, "documentId": true, "pageNumber": true }
+      }
+    }
+  }
+}

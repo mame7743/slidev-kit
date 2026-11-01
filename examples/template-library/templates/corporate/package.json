@@ -1,0 +1,21 @@
+{
+  "name": "{{name}}",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev slides.md",
+    "build": "slidev-kit build slides.md",
+    "pdf": "slidev-kit pdf slides.md"
+  },
+  "dependencies": {
+    "@slidev/cli": "{{slidevVersion}}",
+    "slidev-kit": "{{kitDep}}",
+    "@example/slidev-designs": "{{designDep}}"
+  },
+  "slidev": {
+    "theme": "slidev-kit",
+    "themeConfig": {
+      "variant": "acme"
+    }
+  }
+}

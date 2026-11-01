@@ -1,0 +1,13 @@
+{
+  "name": "@example/slidev-designs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./acme": "./acme/index.ts"
+  },
+  "peerDependencies": {
+    "slidev-kit": "*",
+    "vue": "^3.5.0"
+  }
+}
