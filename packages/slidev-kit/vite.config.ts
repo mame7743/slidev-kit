@@ -28,7 +28,9 @@ function projectDesigns() {
       if (id !== '\0virtual:slidev-kit-designs') return
       const dir = resolve(process.cwd(), 'designs')
       const variants = existsSync(dir)
-        ? readdirSync(dir, { withFileTypes: true }).filter((entry) => entry.isDirectory()).map((entry) => entry.name)
+        ? readdirSync(dir, { withFileTypes: true })
+            .filter((entry) => entry.isDirectory() && entry.name !== 'standard' && existsSync(join(dir, entry.name, 'index.ts')))
+            .map((entry) => entry.name)
         : []
       const imports = variants
         .map((variant, index) => `import * as d${index} from ${JSON.stringify(resolve(dir, variant, 'index.ts'))}`)
