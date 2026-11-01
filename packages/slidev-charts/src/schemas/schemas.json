@@ -1,0 +1,38 @@
+{
+  "category": {
+    "columns": { "category": "string", "value": "number" },
+    "required": ["category", "value"]
+  },
+  "timeseries": {
+    "columns": { "period": "string", "series": "string", "value": "number" },
+    "required": ["period", "series", "value"]
+  },
+  "target": {
+    "columns": { "period": "string", "actual": "number", "target": "number" },
+    "required": ["period", "actual", "target"]
+  },
+  "observation": {
+    "columns": { "group": "string", "value": "number" },
+    "required": ["group", "value"]
+  },
+  "xy": {
+    "columns": { "x": "number", "y": "number", "group": "string" },
+    "required": ["x", "y"]
+  },
+  "waterfall": {
+    "columns": { "step": "string", "change": "number", "kind": "string" },
+    "required": ["step", "change"]
+  },
+  "schedule": {
+    "columns": { "task": "string", "start": "string", "end": "string", "group": "string" },
+    "required": ["task", "start", "end"]
+  },
+  "flow": {
+    "columns": { "source": "string", "target": "string", "value": "number" },
+    "required": ["source", "target", "value"]
+  },
+  "kpi": {
+    "columns": { "metric": "string", "value": "number", "target": "number" },
+    "required": ["metric", "value"]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "company",
+  "colors": {
+    "accent": "#cc001e",
+    "sub": "#494e52",
+    "palette": ["#cc001e", "#494e52", "#7a8790", "#d9a3aa", "#a6adb2", "#8c1f2f"],
+    "grid": "#e3e6e8",
+    "background": "#ffffff",
+    "text": "#24292d"
+  },
+  "fontFamily": ["Meiryo UI", "Meiryo", "Yu Gothic", "Hiragino Sans", "Noto Sans CJK JP", "Arial", "DejaVu Sans"],
+  "fontSize": 12,
+  "titleSize": 15,
+  "lineWidth": 2,
+  "gridWidth": 0.6,
+  "figureSize": [8, 4.5],
+  "padding": 0.12
+}

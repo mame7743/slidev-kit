@@ -1,0 +1,36 @@
+{
+  "name": "mono",
+  "colors": {
+    "accent": "#374151",
+    "sub": "#6B7280",
+    "palette": [
+      "#111827",
+      "#374151",
+      "#6B7280",
+      "#9CA3AF",
+      "#D1D5DB",
+      "#E5E7EB"
+    ],
+    "grid": "#E5E7EB",
+    "background": "#ffffff",
+    "text": "#111827"
+  },
+  "fontFamily": [
+    "Meiryo UI",
+    "Meiryo",
+    "Yu Gothic",
+    "Hiragino Sans",
+    "Noto Sans CJK JP",
+    "Arial",
+    "DejaVu Sans"
+  ],
+  "fontSize": 12,
+  "titleSize": 15,
+  "lineWidth": 2,
+  "gridWidth": 0.6,
+  "figureSize": [
+    8,
+    4.5
+  ],
+  "padding": 0.12
+}

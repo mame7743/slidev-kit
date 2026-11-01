@@ -1,0 +1,36 @@
+{
+  "name": "finance",
+  "colors": {
+    "accent": "#0B2E4F",
+    "sub": "#5B6770",
+    "palette": [
+      "#0B2E4F",
+      "#B8860B",
+      "#5B6770",
+      "#2E7D8F",
+      "#C0C7CE",
+      "#D4AF37"
+    ],
+    "grid": "#e3e6e8",
+    "background": "#ffffff",
+    "text": "#24292d"
+  },
+  "fontFamily": [
+    "Meiryo UI",
+    "Meiryo",
+    "Yu Gothic",
+    "Hiragino Sans",
+    "Noto Sans CJK JP",
+    "Arial",
+    "DejaVu Sans"
+  ],
+  "fontSize": 12,
+  "titleSize": 15,
+  "lineWidth": 2,
+  "gridWidth": 0.6,
+  "figureSize": [
+    8,
+    4.5
+  ],
+  "padding": 0.12
+}

@@ -1,19 +1,23 @@
 ---
-theme: default
+theme: slidev-kit
+layout: cover
 title: {{title}}
 ---
 
 <!-- 副題・所属・日付は必要に応じて追加してください。 -->
 
 ---
-layout: two-cols
+layout: content
+columns: 2
+textSize: medium
+title: 要点と次のアクション
 ---
 
 ## 要点
 
 <!-- 伝えたい結論と根拠を記入してください。 -->
 
-::right::
+::second::
 
 ## 次のアクション
 

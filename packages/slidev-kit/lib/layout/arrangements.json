@@ -1,0 +1,14 @@
+{
+  "center": "1fr",
+  "single": "1fr",
+  "split": "1fr 1fr",
+  "asymmetric": "3fr 2fr",
+  "columns": "1fr 1fr 1fr",
+  "grid": "1fr 1fr",
+  "top-bottom": "1fr",
+  "main-detail": "2fr 1fr",
+  "visual": "1fr",
+  "dashboard": "1fr 1fr",
+  "document": "1fr 1fr",
+  "freeform": "1fr"
+}

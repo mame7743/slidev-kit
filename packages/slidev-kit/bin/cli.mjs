@@ -21,7 +21,7 @@ const usage = `slidev-kit — Slidevデッキの作成・プレビュー・検�
   slidev-kit agent chat [options]
   slidev-kit agent tools
   slidev-kit agent doctor
-  slidev-kit init [name] [--title "..."] [--template=<name|path>] [--theme=<gitURL|file:path>] [--slidev=<version>]
+  slidev-kit init [name] [--title "..."] [--template=<name|path>] [--kit=<spec>] [--slidev=<version>]
 
   slidev-kit init は name が .md で終わるか省略された場合、現在のプロジェクトへ雛形を作成します。
   それ以外は name/ に独立したプロジェクトを生成します。
@@ -44,15 +44,17 @@ function deckRequire() {
   return createRequire(join(process.cwd(), 'package.json'))
 }
 
-function themeScript(subpath) {
+function kitScript(file) {
+  // 検査はエンジン自身が持つ（テーマ不要）。
   try {
-    return deckRequire().resolve(`slidev-template/${subpath}`)
-  } catch {}
-  try {
-    return require.resolve(`slidev-template/${subpath}`)
+    return require.resolve(`slidev-kit/${file}`)
   } catch {
-    throw new Error(`テーマが見つかりません: slidev-template をインストールしてください（npm i -D slidev-template）。`)
+    return join(cliDir, '..', 'scripts', file)
   }
+}
+
+function projectChartsRecipe() {
+  return join(process.cwd(), 'scripts', 'charts', 'run.py')
 }
 
 function run(script, argv) {
@@ -78,27 +80,31 @@ async function main() {
   if (command === 'init') return run(join(cliDir, '..', 'src', 'init.mjs'), rest)
   if (command === 'agent') return run(packageCli('slidev-agent'), rest)
   if (command === 'dev') return run(packageCli('slidev-report'), ['dev', ...rest])
-  if (command === 'charts') return run(themeScript('charts'), rest)
+  if (command === 'charts') {
+    // 作り込んだ図のレシピはデザインテンプレート側（プロジェクトの scripts/charts/run.py）。
+    if (!require('fs').existsSync(projectChartsRecipe())) {
+      console.error('[slidev-kit] scripts/charts/run.py がありません。デザインテンプレートのレシピを置いてください。')
+      return 1
+    }
+    return run(join(cliDir, '..', 'scripts', 'run-recipe.mjs'), rest)
+  }
   if (command === 'doctor') return run(packageCli('slidev-report'), ['doctor', ...rest])
   if (command === 'pdf') return run(packageCli('slidev-report'), ['export', ...rest])
   if (command === 'build') {
     // slidev-kit build は検査を必ず通す。--check-only なら検査だけ行う。
-    const file = rest[0] && !rest[0].startsWith('-') ? rest[0] : defaultDeck(process.cwd())
-    const flags = rest[0] && !rest[0].startsWith('-') ? rest.slice(1) : rest
+    const fileArg = rest[0] && !rest[0].startsWith('-') ? rest[0] : undefined
+    const flags = fileArg ? rest.slice(1) : rest
     const samples = readConfig(process.cwd()).samples
-    const checkArgs = [file]
+    const checkArgs = []
+    if (fileArg) checkArgs.push(fileArg)
+    else if (!flags.some((flag) => flag.startsWith('--samples'))) checkArgs.push(defaultDeck(process.cwd()))
     if (samples) checkArgs.push(`--samples=${Array.isArray(samples) ? samples.join(',') : samples}`)
     if (flags.includes('--check-only')) {
-      return run(themeScript('check'), [...checkArgs, ...flags.filter((flag) => flag !== '--check-only')])
+      return run(kitScript('check'), [...checkArgs, ...flags.filter((flag) => flag !== '--check-only')])
     }
-    let checkCode = 0
-    try {
-      checkCode = await run(themeScript('check'), checkArgs)
-    } catch (error) {
-      console.warn(`[slidev-kit] ${error.message} 検査をスキップしてビルドします。`)
-    }
+    const checkCode = await run(kitScript('check'), checkArgs)
     if (checkCode !== 0) return checkCode
-    return run(packageCli('slidev-report'), ['build', file, ...flags])
+    return run(packageCli('slidev-report'), ['build', fileArg ?? defaultDeck(process.cwd()), ...flags])
   }
   // 既定動作: ファイル指定のプレビュー
   return run(packageCli('slidev-report'), ['dev', command, ...rest])

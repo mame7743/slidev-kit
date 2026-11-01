@@ -1,0 +1,36 @@
+{
+  "name": "consulting",
+  "colors": {
+    "accent": "#1F3A5F",
+    "sub": "#6B7280",
+    "palette": [
+      "#1F3A5F",
+      "#6B7280",
+      "#2E7D8F",
+      "#C9A227",
+      "#9AA5B1",
+      "#A7C4D9"
+    ],
+    "grid": "#e3e6e8",
+    "background": "#ffffff",
+    "text": "#24292d"
+  },
+  "fontFamily": [
+    "Meiryo UI",
+    "Meiryo",
+    "Yu Gothic",
+    "Hiragino Sans",
+    "Noto Sans CJK JP",
+    "Arial",
+    "DejaVu Sans"
+  ],
+  "fontSize": 12,
+  "titleSize": 15,
+  "lineWidth": 2,
+  "gridWidth": 0.6,
+  "figureSize": [
+    8,
+    4.5
+  ],
+  "padding": 0.12
+}

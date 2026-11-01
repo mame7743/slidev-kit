@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "lib": ["ES2022", "DOM"],
+    "types": ["node", "vite/client"]
+  },
+  "include": [
+    "packages/slidev-kit/components/visuals/GanttChart.vue",
+    "packages/slidev-kit/components/visuals/FitBox.vue",
+    "packages/slidev-kit/components/visuals/CoverImage.vue",
+    "packages/slidev-kit/components/layouts/**/*.vue",
+    "packages/slidev-kit/lib/**/*.ts",
+    "packages/slidev-kit/setup/**/*.ts",
+    "packages/slidev-kit/tests/**/*.ts",
+    "packages/slidev-charts/components/**/*.vue",
+    "packages/slidev-charts/src/**/*.d.ts",
+    "packages/slidev-charts/src/**/*.d.mts",
+    "packages/slidev-charts/src/csv/client/**/*.ts",
+    "packages/slidev-charts/tests/**/*.ts"
+  ]
+}
