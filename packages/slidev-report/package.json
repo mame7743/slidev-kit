@@ -1,0 +1,44 @@
+{
+  "name": "slidev-report",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "description": "Authoring workflow implementation for the deck CLI: dev, build, export, check, doctor",
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "bin": {
+    "slidev-report": "src/cli.mjs"
+  },
+  "exports": {
+    "./deck-workflow": "./src/deck-workflow.mjs",
+    "./export-examples": "./src/export-examples.mjs",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@slidev/cli": ">=53.0.0",
+    "playwright-chromium": ">=1.0.0",
+    "slidev-template": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "playwright-chromium": {
+      "optional": true
+    },
+    "slidev-template": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@slidev/cli": "53.0.0",
+    "@types/node": "22.20.5",
+    "playwright-chromium": "1.61.1",
+    "vitest": "5.0.5"
+  },
+  "scripts": {
+    "test": "vitest run"
+  }
+}

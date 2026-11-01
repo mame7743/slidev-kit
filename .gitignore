@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.slidev/
+.venv/
+*.pdf
+public/data/
+.DS_Store
+*.tgz

@@ -1,0 +1,6 @@
+{
+  "name": "default",
+  "description": "Slidev標準テーマの2ページ雛形（同梱）",
+  "modes": ["inplace", "project"],
+  "tokens": ["title", "name", "kitDep", "slidevVersion"]
+}

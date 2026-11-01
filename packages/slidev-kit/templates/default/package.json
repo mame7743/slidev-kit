@@ -1,0 +1,18 @@
+{
+  "name": "{{name}}",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev-kit slides.md --open",
+    "build": "slidev-kit build slides.md",
+    "pdf": "slidev-kit pdf slides.md",
+    "check": "slidev-kit build --check-only slides.md"
+  },
+  "devDependencies": {
+    "@slidev/cli": "{{slidevVersion}}",
+    "@slidev/theme-default": "^0.25.0",
+    "slidev-kit": "{{kitDep}}",
+    "playwright-chromium": "^1.61.0"
+  }
+}

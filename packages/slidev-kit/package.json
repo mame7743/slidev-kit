@@ -1,0 +1,69 @@
+{
+  "name": "slidev-kit",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "description": "Slidev deck engine: unified CLI for authoring, building, PDF export, and the slide agent",
+  "license": "MIT",
+  "files": [
+    "bin",
+    "src",
+    "templates",
+    "README.md"
+  ],
+  "bin": {
+    "slidev-kit": "bin/cli.mjs"
+  },
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@slidev/cli": ">=53.0.0",
+    "playwright-chromium": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "playwright-chromium": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@earendil-works/pi-agent-core": "1.4.0",
+    "@earendil-works/pi-ai": "1.4.0",
+    "slidev-agent": "0.1.0",
+    "slidev-report": "0.1.0",
+    "yaml": "^2.8.0"
+  },
+  "bundledDependencies": [
+    "slidev-agent",
+    "slidev-report"
+  ],
+  "devDependencies": {
+    "@slidev/cli": "53.0.0",
+    "@types/node": "22.20.5",
+    "playwright-chromium": "1.61.1",
+    "vitest": "5.0.5"
+  },
+  "scripts": {
+    "prepack": "node scripts/prepack.mjs",
+    "postpack": "node scripts/postpack.mjs",
+    "test": "vitest run"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mame7743/slidev-kit.git",
+    "directory": "packages/slidev-kit"
+  },
+  "keywords": [
+    "slidev",
+    "presentation",
+    "slidev-kit",
+    "cli",
+    "agent"
+  ]
+}
