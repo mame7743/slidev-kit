@@ -10,7 +10,7 @@ Slidevデッキを最初から最後まで作るツールキットです。テ�
 - **スライド専用エージェント**: `slidev-kit agent run "..."`。`ref/` の参考資料を読んでから編集します
 - **MCP サーバー**: `slidev-kit mcp`。MCP 対応クライアントへスライド操作ツールを公開します
 - **デザイン拡張**: [`docs/designs.md`](docs/designs.md) に従い、同じ `slides.md` のままテーマ variant ごとに部品を変更できます
-- **デザイン例**: [`examples/design-contract/`](examples/design-contract/) にテーマ実装例と生成済みPDF、[`examples/design-library/`](examples/design-library/) に共有ライブラリ、[`examples/template-library/`](examples/template-library/) にGitHubテンプレートの例があります
+- **デザイン例**: [`examples/design-contract/`](examples/design-contract/) にテーマ実装例と生成済みPDF、[`examples/design-library/`](examples/design-library/) に共有ライブラリ、[`examples/template-library/`](examples/template-library/) にGitHubテンプレートの例、[`examples/slidev-template/`](examples/slidev-template/) に `mame7743/slidev-template` の利用例があります
 
 ## インストール
 
