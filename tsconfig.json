@@ -11,17 +11,17 @@
     "types": ["node", "vite/client"]
   },
   "include": [
-    "packages/slidev-kit/components/visuals/GanttChart.vue",
-    "packages/slidev-kit/components/visuals/FitBox.vue",
-    "packages/slidev-kit/components/visuals/CoverImage.vue",
-    "packages/slidev-kit/components/layouts/**/*.vue",
-    "packages/slidev-kit/lib/**/*.ts",
-    "packages/slidev-kit/setup/**/*.ts",
-    "packages/slidev-kit/tests/**/*.ts",
-    "packages/slidev-charts/components/**/*.vue",
-    "packages/slidev-charts/src/**/*.d.ts",
-    "packages/slidev-charts/src/**/*.d.mts",
-    "packages/slidev-charts/src/csv/client/**/*.ts",
-    "packages/slidev-charts/tests/**/*.ts"
+    "packages/core/components/visuals/GanttChart.vue",
+    "packages/core/components/visuals/FitBox.vue",
+    "packages/core/components/visuals/CoverImage.vue",
+    "packages/core/components/layouts/**/*.vue",
+    "packages/core/lib/**/*.ts",
+    "packages/core/setup/**/*.ts",
+    "packages/core/tests/**/*.ts",
+    "packages/charts/components/**/*.vue",
+    "packages/charts/src/**/*.d.ts",
+    "packages/charts/src/**/*.d.mts",
+    "packages/charts/src/csv/client/**/*.ts",
+    "packages/charts/tests/**/*.ts"
   ]
 }

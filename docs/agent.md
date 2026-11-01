@@ -49,7 +49,7 @@ my-report/
 
 ## piのツールとして使う
 
-`slidev-kit/packages/slidev-agent/src/tools.mjs` をexportしているため、pi のプロジェクト拡張から `slidev_` 接頭辞付きツールとして登録できます。
+`packages/agent/src/tools.mjs` をexportしているため、pi のプロジェクト拡張から `slidev_` 接頭辞付きツールとして登録できます。
 
 ```text
 slidev_deck_info

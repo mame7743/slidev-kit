@@ -1,31 +1,39 @@
 {
   "name": "slidev-kit",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
   "engines": {
     "node": ">=22.12.0"
   },
   "description": "SlideKit — a toolkit for creating Slidev decks end to end: interactive init, templates, build, PDF, validation, and a slide agent",
   "license": "MIT",
   "bin": {
-    "slidev-kit": "packages/slidev-kit/bin/cli.mjs"
+    "slidev-kit": "packages/cli/bin/cli.mjs"
   },
   "exports": {
     "./package.json": "./package.json",
-    "./packages/slidev-agent/src/tools.mjs": "./packages/slidev-agent/src/tools.mjs",
-    "./check": "./packages/slidev-kit/scripts/check.mjs",
-    "./components/*": "./packages/slidev-kit/components/*",
-    "./composables/*": "./packages/slidev-kit/composables/*",
-    "./designs/*": "./packages/slidev-kit/designs/*"
+    "./packages/agent/src/tools.mjs": "./packages/agent/src/tools.mjs",
+    "./check": "./packages/core/check.mjs",
+    "./components/*": "./packages/core/components/*",
+    "./composables/*": "./packages/core/composables/*",
+    "./designs/*": "./packages/core/designs/*",
+    "./interface/*": "./packages/core/interface/*"
   },
   "dependencies": {
+    "slidev-core": "file:packages/core",
+    "slidev-runner": "file:packages/runner",
+    "slidev-agent": "file:packages/agent",
+    "slidev-mcp": "file:packages/mcp",
+    "slidev-charts": "file:packages/charts",
     "@earendil-works/pi-agent-core": "1.4.0",
     "@earendil-works/pi-ai": "1.4.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "yaml": "^2.8.0"
+  },
+  "peerDependencies": {
+    "@slidev/cli": ">=53.0.0",
+    "vue": "^3.5.0"
   },
   "devDependencies": {
     "@slidev/cli": "53.0.0",

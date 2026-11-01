@@ -1,0 +1,42 @@
+{
+  "name": "slidev-kit",
+  "version": "0.2.2",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12.0" },
+  "description": "Slidev toolkit CLI for authoring, validating, building, and exporting decks",
+  "license": "MIT",
+  "files": ["bin", "src", "templates", "scripts", "layouts", "interface", "designs", "components", "composables", "lib", "setup", "vite.config.ts", "README.md"],
+  "bin": { "slidev-kit": "bin/cli.mjs" },
+  "exports": {
+    "./vite": "./vite.config.ts",
+    "./check": "./scripts/check.mjs",
+    "./package.json": "./package.json",
+    "./components/*": "./components/*",
+    "./composables/*": "./composables/*",
+    "./designs/*": "./designs/*",
+    "./interface/*": "./interface/*"
+  },
+  "peerDependencies": { "@slidev/cli": ">=53.0.0", "vue": "^3.5.0" },
+  "dependencies": {
+    "@earendil-works/pi-agent-core": "1.4.0",
+    "@earendil-works/pi-ai": "1.4.0",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.0.0",
+    "slidev-agent": "0.1.0",
+    "slidev-runner": "0.1.0",
+    "slidev-core": "0.1.0",
+    "slidev-mcp": "0.1.0",
+    "yaml": "^2.8.0",
+    "slidev-charts": "0.1.0"
+  },
+  "bundledDependencies": ["slidev-agent", "slidev-charts", "slidev-runner", "slidev-core", "slidev-mcp"],
+  "devDependencies": {
+    "@slidev/cli": "53.0.0", "@types/node": "22.20.5", "playwright-chromium": "1.61.1",
+    "vitest": "5.0.5", "vue": "3.5.24", "@slidev/types": "53.0.0", "typescript": "6.0.3", "vue-tsc": "3.3.13"
+  },
+  "scripts": { "prepack": "node scripts/prepack.mjs", "postpack": "node scripts/postpack.mjs", "test": "vitest run" },
+  "repository": { "type": "git", "url": "git+https://github.com/mame7743/slidev-kit.git", "directory": "packages/cli" },
+  "keywords": ["slidev", "presentation", "slidev-kit", "cli", "agent"],
+  "slidev": { "defaults": { "aspectRatio": "16/9", "canvasWidth": 1280, "colorSchema": "light", "themeConfig": { "variant": "default", "organization": "", "department": "", "classification": "" }, "fonts": { "sans": "Arial", "local": "Arial" }, "drawings": { "persist": false } } }
+}

@@ -8,19 +8,22 @@ Slidevデッキを最初から最後まで作るツールキットです。テ�
 - **検査つきビルド**: `slidev-kit build` は検査を通してからビルドします
 - **PDF**: `slidev-kit pdf`
 - **スライド専用エージェント**: `slidev-kit agent run "..."`。`ref/` の参考資料を読んでから編集します
+- **MCP サーバー**: `slidev-kit mcp`。MCP 対応クライアントへスライド操作ツールを公開します
+- **デザイン拡張**: [`docs/designs.md`](docs/designs.md) に従い、同じ `slides.md` のままテーマ variant ごとに部品を変更できます
+- **デザイン例**: [`examples/design-contract/`](examples/design-contract/) にテーマ実装例と生成済みPDF、[`examples/design-library/`](examples/design-library/) に共有ライブラリ、[`examples/template-library/`](examples/template-library/) にGitHubテンプレートの例があります
 
 ## インストール
 
-npmjs公開までの間はgit URLで実行できます。
+当面は GitHub リポジトリを配布元として使います。タグまたはブランチを指定してください。
 
 ```sh
-npx github:mame7743/slidev-kit#v0.1.0 init my-report
+npx github:mame7743/slidev-kit#main init my-report
 cd my-report
 npm install
 npm run dev
 ```
 
-公開後は `npm i -D slidev-kit` でインストールできます。
+デッキ作成後は生成された `package.json` の依存に従って `npm install` します。
 
 ## 使い方
 
@@ -33,13 +36,14 @@ slidev-kit doctor                 # 環境診断
 slidev-kit init                   # 対話でデッキ作成
 slidev-kit init --list            # テンプレート一覧
 slidev-kit agent run "..."        # エージェント実行
+slidev-kit mcp                    # MCP stdioサーバー
 ```
 
 省略時のデッキは `slidev-kit.config.json` の `defaultDeck`（既定 `slides.md`）です。
 
 ## テンプレート
 
-詳細は [packages/slidev-kit/README.md](packages/slidev-kit/README.md) を参照してください。要点:
+詳細は [packages/cli/README.md](packages/cli/README.md) を参照してください。要点:
 
 ```text
 templates/<name>/
@@ -64,9 +68,11 @@ npm test        # Vitest
 npm run e2e     # 隔離環境で init → install → build
 ```
 
-- `packages/slidev-kit/` エンジン本体（CLI・init・テンプレート）
-- `packages/slidev-report/` ワークフロー実装（内部）
-- `packages/slidev-agent/` スライド専用エージェント（内部）
+- `packages/cli/` 公開パッケージ `slidev-kit`（CLI・配布）
+- `packages/core/` テンプレート・検査・Slidev資産（内部）
+- `packages/runner/` Slidev実行ワークフロー（内部）
+- `packages/agent/` スライド専用エージェント（内部）
+- `packages/charts/` 図表生成（内部）
 
 ## ライセンス
 

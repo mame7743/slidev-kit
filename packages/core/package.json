@@ -1,0 +1,13 @@
+{
+  "name": "slidev-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./init": "./init.mjs",
+    "./check": "./check.mjs",
+    "./deck": "./deck.mjs"
+  },
+  "files": ["check.mjs", "init.mjs", "deck.mjs", "deck.d.mts", "templates", "layouts", "interface", "designs", "components", "composables", "lib", "setup", "scripts", "vite.config.ts"]
+}
