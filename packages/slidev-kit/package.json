@@ -29,7 +29,10 @@
   "exports": {
     "./vite": "./vite.config.ts",
     "./check": "./scripts/check.mjs",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./components/*": "./components/*",
+    "./composables/*": "./composables/*",
+    "./designs/*": "./designs/*"
   },
   "peerDependencies": {
     "@slidev/cli": ">=53.0.0",

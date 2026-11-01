@@ -1,5 +1,5 @@
 <script setup>
-import { useThemeConfig } from '../../composables/useThemeConfig'
+import { useThemeConfig } from 'slidev-kit/composables/useThemeConfig'
 
 defineProps({ title: String, section: String })
 const { organization, classification } = useThemeConfig()

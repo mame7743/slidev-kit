@@ -17,7 +17,10 @@
   "exports": {
     "./package.json": "./package.json",
     "./packages/slidev-agent/src/tools.mjs": "./packages/slidev-agent/src/tools.mjs",
-    "./check": "./packages/slidev-kit/scripts/check.mjs"
+    "./check": "./packages/slidev-kit/scripts/check.mjs",
+    "./components/*": "./packages/slidev-kit/components/*",
+    "./composables/*": "./packages/slidev-kit/composables/*",
+    "./designs/*": "./packages/slidev-kit/designs/*"
   },
   "dependencies": {
     "@earendil-works/pi-agent-core": "1.4.0",

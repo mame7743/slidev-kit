@@ -1,6 +1,6 @@
 <script setup>
 import { configs, useSlideContext } from '@slidev/client'
-import { useThemeConfig } from '../../composables/useThemeConfig'
+import { useThemeConfig } from 'slidev-kit/composables/useThemeConfig'
 
 const { $page } = useSlideContext()
 const { department } = useThemeConfig()

@@ -1,7 +1,7 @@
 <script setup>
 import PageHeader from './PageHeader.vue'
 import PageFooter from './PageFooter.vue'
-import CoverImage from '../../components/visuals/CoverImage.vue'
+import CoverImage from 'slidev-kit/components/visuals/CoverImage.vue'
 
 defineProps({
   title: String,
