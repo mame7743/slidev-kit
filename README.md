@@ -182,9 +182,25 @@ templates/<name>/
 
 デッキ直下の `ref/` に参考資料（md / txt / csv / pdf / pptx など）を置くと、`slidev-kit agent` が執筆前にテキスト系を読んで従います。詳細は [docs/agent.md](docs/agent.md) を参照してください。
 
+## ディレクトリ構成
+
+```text
+packages/core/layouts/*.vue          # registry登録済みの公開17レイアウト
+packages/core/layouts/extras/        # registry・catalog対象外（手書き利用・テストは可能）
+packages/core/components/kit/        # KitSlideと共通コンテンツ描画
+packages/core/components/templates/  # 旧レイアウト用テンプレート
+packages/core/components/visuals/    # 図表・画像コンポーネント
+packages/core/registry/              # 公開レイアウト定義
+catalog/                             # 公開サンプルとブラウザpreview
+examples/                            # 用途別の実行例（詳細はexamples/README.md）
+docs/layout-inventory.md             # 自動生成される公開状態の唯一の判定表
+```
+
+ルート直下の `components`、`designs`、`interface`、`layouts`、`setup` などのsymlinkは、実装を `packages/core/` に集約したまま、Slidevテーマとしてルートから解決される資産パスと配布時のパッケージ構成を満たすための入口です。実体の重複ではないため、フォルダ整理時にも削除せず維持します。
+
 ## 開発
 
-[ドキュメント索引](docs/README.md) / [開発用スクリプト](scripts/README.md) / [開発メモリ](docs/memory/README.md)
+[ドキュメント索引](docs/README.md) / [開発用スクリプト](scripts/README.md) / [開発メモリ](docs/memory/README.md) / [レイアウト判定表](docs/layout-inventory.md)
 
 ```sh
 npm ci

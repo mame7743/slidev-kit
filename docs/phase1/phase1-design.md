@@ -15,7 +15,7 @@
 | ロードマップ | 標準Markdown表をCSSで整える。表を独自データ構造へ変換しない |
 | カード | 標準の名前付きスロットを使用。見出しを正規表現で分割しない |
 | プレビュー・HMR・ビルド・PDF | Slidev CLI / Vite / Playwrightに委譲 |
-| レイアウト | `packages/core/layouts/` のVue SFCと共有 `KitSlide.vue` |
+| レイアウト | `packages/core/layouts/` の公開Vue SFCと共有 `components/kit/KitSlide.vue` |
 | デザイン | `themeConfig.variant: corporate` と共有CSS Custom Properties |
 | 仕様・カタログ | JSON Schema + レジストリからMarkdown例、カタログ、デッキを生成 |
 | 入力検査 | Slidev公式parserでスライドを解析し、レジストリのID/variant/density/slotを検査 |
@@ -25,8 +25,8 @@
 
 ```text
 packages/core/
-  layouts/                  # 安定した公開ID。既存IDは削除しない
-  components/layouts/KitSlide.vue
+  layouts/                  # registry登録済みの公開ID（registry外はextras/）
+  components/kit/KitSlide.vue
   designs/corporate/         # tokens.css + corporate.css + 既存Design契約への登録
   registry/                 # layouts.schema.json / layouts.json（10種の唯一の定義元）
   setup/mermaid.ts          # 標準Mermaid設定。shadow DOMのSVGは外側CSSで変更できない

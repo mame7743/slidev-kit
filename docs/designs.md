@@ -13,11 +13,13 @@ my-deck/
     EndPage.vue       # 任意の差し替え
 ```
 
-## 基本10IDの組み込みpreset
+## 公開17IDの組み込みpreset
 
-`themeConfig.variant: corporate | editorial` は、10ID共通のKitSlide構造にsemantic tokensと装飾を適用します。Editorialは白地・墨色・朱色、Corporateは従来の見た目を維持します。両方とも既存Designレジストリに登録され、Viteのプロジェクトデザイン検出を変更しません。
+`themeConfig.variant: corporate | editorial` は、公開17ID共通のKitSlide構造にsemantic tokensと装飾を適用します。Editorialは白地・墨色・朱色、Corporateは従来の見た目を維持します。両方とも既存Designレジストリに登録され、Viteのプロジェクトデザイン検出を変更しません。
 
-スライド直下の `variant` は配置の指定であり、デザイン名ではありません。`cover/content/comparison/summary/end` はdefault/mono/dark/custom指定時に旧interface実装を維持します。その他7IDは従来からKitSlide専用であり、両preset以外ではCorporateへフォールバックします。custom Designでこの10IDのKitSlide DOM自体を差し替える契約はありません。
+スライド直下の `variant` は配置の指定であり、デザイン名ではありません。`cover/content/comparison/summary/end` はdefault/mono/dark/custom指定時に旧interface実装を維持します。その他12IDはKitSlide専用であり、両preset以外ではCorporateへフォールバックします。custom DesignでKitSlide DOM自体を差し替える契約はありません。
+
+公開レイアウトのwrapperは `packages/core/layouts/*.vue`、共通描画は `packages/core/components/kit/KitSlide.vue` と `ContentLayout.vue` にあります。registry・catalog対象外の旧wrapperは `packages/core/layouts/extras/` に分離しています。extrasはSlidevのlayouts再帰走査によるbasename登録で手書き利用でき、既存テストでも使用しますが、catalogサンプルとpreviewは生成しません。公開状態と実装種別の判定は [自動生成のレイアウト判定表](layout-inventory.md) を唯一の正とします。
 
 詳細は [Phase2利用ガイド](phase2/README.md) を参照してください。
 

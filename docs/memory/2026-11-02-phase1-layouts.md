@@ -5,7 +5,7 @@
 - Slidev 53.0.0の標準テーマ・Vue slot・Markdown表・Mermaidを利用。独自Markdown変換・図表レンダラー・GUIは追加しない。
 - 既存monorepoとCLI/AI機能は維持。Phase 1は通常のSlidev CLIだけで利用可能で、AI設定は不要。既存のAI依存そのものは削除していない。
 - 公開10 IDは `cover / section / content / split / comparison / cards / visual / chart / table / roadmap`。唯一の仕様は `packages/core/registry/layouts.json`、検証は同ディレクトリのJSON Schema。
-- 共通DOMは `packages/core/components/layouts/KitSlide.vue`。`themeConfig.variant: corporate` とスライドの配置 `variant` を分離。既存cover/content/comparisonは非Corporate時に旧実装を維持。
+- 共通DOMは現在 `packages/core/components/kit/KitSlide.vue`。`themeConfig.variant: corporate` とスライドの配置 `variant` を分離。既存cover/content/comparisonは非Corporate時に旧実装を維持。
 - `npm run catalog` で説明・テンプレート・デッキを生成。`npm run catalog:check` で不一致を検出。
 - Mermaid SVGはshadow DOM内にある。外側CSSではなく標準 `setup/mermaid.ts` で共通CSSトークンと寸法を設定。SVG data URLはMarkdownの安全なURL判定で拒否されるため、テーマ同梱画像 `/slidev-kit/` を使用。
 - VueはSlidevの依存範囲に揃う3.5.44に固定。
