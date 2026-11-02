@@ -1,0 +1,10 @@
+.kit-slide {
+  --kit-title: 38px;
+  --kit-heading: 27px;
+  --kit-body: 24px;
+  --kit-leading: 1.55;
+  --kit-space: 24px;
+  --kit-padding: 44px;
+}
+.kit-slide[data-density='relaxed'] { --kit-body: 28px; --kit-space: 30px; --kit-padding: 50px; --kit-leading: 1.65; }
+.kit-slide[data-density='compact'] { --kit-body: 20px; --kit-space: 16px; --kit-padding: 32px; --kit-leading: 1.45; }

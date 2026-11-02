@@ -1,11 +1,13 @@
 <script setup>
 import CoverLayout from '../interface/CoverLayout.vue'
 import KitSlide from '../components/layouts/KitSlide.vue'
-import { configs } from '@slidev/client'
+import { useKitContext } from '../composables/useKitContext.mjs'
+import { isKitPreset } from '../lib/kit-presets.mjs'
+const { themeConfig } = useKitContext()
 defineProps({ frontmatter: Object, title: String, subtitle: String, author: String, date: String })
 </script>
 <template>
-  <KitSlide v-if="configs.themeConfig.variant === 'corporate'" kind="cover" :frontmatter="frontmatter"><slot /></KitSlide>
+  <KitSlide v-if="isKitPreset(themeConfig.variant)" kind="cover" :frontmatter="frontmatter"><slot /></KitSlide>
   <CoverLayout v-else
     :title="frontmatter.title"
     :subtitle="subtitle"

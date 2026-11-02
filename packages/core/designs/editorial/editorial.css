@@ -1,0 +1,2 @@
+/* A double ink rule and square panels evoke an editorial page. */
+.kit-slide[data-design='editorial'] { --kit-top-style: double; }

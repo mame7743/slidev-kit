@@ -7,6 +7,11 @@
 - [検証結果](phase1/phase1-verification.md)：実施済みの検査と既知の制約
 - [レイアウトカタログ](../catalog/README.md)：生成された説明・プレビュー・コピペ例
 
+## Phase 2 第1段階：共通構造とデザイン
+
+- [仕様・利用ガイド](phase2/README.md)：Corporate / Editorial、10IDの互換性
+- [検証結果](phase2/verification.md)：実Chromium・図表・PDF・Corporate画像比較
+
 ## 既存の拡張機能
 
 - [デザイン拡張](designs.md)

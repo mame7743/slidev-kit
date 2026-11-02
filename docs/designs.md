@@ -13,6 +13,14 @@ my-deck/
     EndPage.vue       # 任意の差し替え
 ```
 
+## 基本10IDの組み込みpreset
+
+`themeConfig.variant: corporate | editorial` は、10ID共通のKitSlide構造にsemantic tokensと装飾を適用します。Editorialは白地・墨色・朱色、Corporateは従来の見た目を維持します。両方とも既存Designレジストリに登録され、Viteのプロジェクトデザイン検出を変更しません。
+
+スライド直下の `variant` は配置の指定であり、デザイン名ではありません。`cover/content/comparison` はdefault/mono/dark/custom指定時に旧interface実装を維持します。その他7IDは従来からKitSlide専用であり、両preset以外ではCorporateへフォールバックします。custom Designでこの10IDのKitSlide DOM自体を差し替える契約はありません。
+
+詳細は [Phase2利用ガイド](phase2/README.md) を参照してください。
+
 ## 共通 interface
 
 kit は `slides.md` の frontmatter・本文から、layout が解釈したデータを interface の型に正規化してテーマへ渡します。契約の型は `slidev-kit/interface/design` から利用できます。

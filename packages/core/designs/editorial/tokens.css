@@ -1,0 +1,15 @@
+/* Editorial: paper white, ink, vermilion. Shared geometry is unchanged. */
+.kit-slide[data-design='editorial'] {
+  --kit-primary: #252525;
+  --kit-accent: #c43c2f;
+  --kit-background: #ffffff;
+  --kit-surface: #f6f3ee;
+  --kit-text: #252525;
+  --kit-muted: #62605c;
+  --kit-line: #d7d0c6;
+  --kit-chart-1: #c43c2f;
+  --kit-chart-2: #65605a;
+  --kit-font: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans CJK JP', Arial, sans-serif;
+  --kit-radius: 0px;
+  --kit-border: 1px solid var(--kit-line);
+}

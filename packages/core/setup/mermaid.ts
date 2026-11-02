@@ -1,13 +1,17 @@
 import { defineMermaidSetup } from '@slidev/types'
 import { getKitThemeConfig } from '../composables/useKitContext.mjs'
+import { isKitPreset, normalizeKitPreset } from '../lib/kit-presets.mjs'
 import '../designs/corporate/tokens.css'
+import '../designs/editorial/tokens.css'
 
 export default defineMermaidSetup(() => {
-  if (getKitThemeConfig().variant !== 'corporate') return {}
+  const preset = getKitThemeConfig().variant
+  if (!isKitPreset(preset)) return {}
   // Mermaid renders inside a shadow root, so outside CSS cannot theme its SVG.
   // Read the same semantic tokens used by the slide rather than duplicating colors.
   const probe = document.createElement('div')
   probe.className = 'kit-slide'
+  probe.dataset.design = normalizeKitPreset(preset)
   probe.hidden = true
   document.body.append(probe)
   const style = getComputedStyle(probe)

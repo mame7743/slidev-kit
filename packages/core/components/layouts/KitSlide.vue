@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useKitContext } from '../../composables/useKitContext.mjs'
+import { normalizeKitPreset } from '../../lib/kit-presets.mjs'
+import '../../designs/shared/tokens.css'
+import '../../designs/shared/structure.css'
+import '../../designs/editorial/tokens.css'
+import '../../designs/editorial/editorial.css'
 import '../../designs/corporate/tokens.css'
 import '../../designs/corporate/corporate.css'
 
 const props = defineProps<{ kind: string; frontmatter?: Record<string, unknown> }>()
 const { frontmatter, page, themeConfig } = useKitContext()
 const fm = computed(() => props.frontmatter ?? frontmatter)
+const design = computed(() => normalizeKitPreset(themeConfig.variant))
 const density = computed(() => String(fm.value.density ?? themeConfig.density ?? 'normal'))
 const variant = computed(() => String(fm.value.variant ?? (props.kind === 'roadmap' ? 'phases' : 'balanced')))
 const root = ref<HTMLElement>()
@@ -57,7 +63,7 @@ onBeforeUnmount(() => { observer?.disconnect(); mutations?.disconnect(); clearTi
 </script>
 
 <template>
-  <article ref="root" class="slidev-layout kit-slide" :data-layout="kind" :data-variant="variant" :data-density="density" data-design="corporate">
+  <article ref="root" class="slidev-layout kit-slide" :data-layout="kind" :data-variant="variant" :data-density="density" :data-design="design">
     <main class="kit-body">
       <div class="kit-region kit-intro"><slot /></div>
       <div v-if="kind === 'split' || kind === 'comparison'" class="kit-columns">

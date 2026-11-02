@@ -61,7 +61,9 @@
     "catalog": "node scripts/phase1/generate-catalog.mjs",
     "catalog:check": "node scripts/phase1/generate-catalog.mjs --check",
     "phase1:check": "node scripts/phase1/check-phase1.mjs",
-    "phase1:browser": "node scripts/phase1/verify-phase1-browser.mjs"
+    "phase1:browser": "node scripts/phase1/verify-phase1-browser.mjs",
+    "phase2:check": "node scripts/phase2/check-phase2.mjs",
+    "phase2:browser": "node scripts/phase2/verify-phase2-browser.mjs --corporate && node scripts/phase2/verify-phase2-browser.mjs"
   },
   "slidev": {
     "defaults": {

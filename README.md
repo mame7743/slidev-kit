@@ -95,6 +95,18 @@ npm run phase1:browser   # Chromiumで10枚・全variant/densityを検査し、P
 
 設計・標準APIとの分担は [docs/phase1/phase1-design.md](docs/phase1/phase1-design.md)、実施結果と既知の制約は [docs/phase1/phase1-verification.md](docs/phase1/phase1-verification.md) を参照してください。Talk・40レイアウト・独自Gantt・新規AI支援は後続Phaseです。
 
+## Phase 2 第1段階：本文を変えずにEditorialへ
+
+10ID共通の構造・密度を保ったまま、`themeConfig.variant: editorial` で白地・墨色・朱色のEditorialに切り替えられます。Corporateは従来の見た目を維持します。スライド直下の `variant` は引き続き配置指定です。
+
+```sh
+npx slidev examples/phase2/slides.md
+npm run phase2:check     # 同じレジストリから生成した10枚を検査
+npm run phase2:browser   # 両presetのDOM/全配置/密度/図表/PDFを検査
+```
+
+サンプル本文はPhase1と同じです。検証成果物は `dist/phase2-verification/{corporate,editorial}/` に隔離し、既存catalog previewを上書きしません。[仕様・使い方・互換性](docs/phase2/README.md)、[実検証結果](docs/phase2/verification.md) を参照してください。40ID化・Talk・AI/GUIはこの段階の対象外です。
+
 ## 既存CLI・拡張機能
 
 Slidevデッキを最初から最後まで作るツールキットです。テンプレートからの対話的な作成、検査つきビルド、PDF出力、スライド専用エージェントを1つのCLIにまとめています。
