@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 // パッケージ内から実行されるため、テーマの場所は自身からの相対で解決する。
 const scriptDir = dirname(fileURLToPath(import.meta.url))
 const packageRoot = existsSync(join(scriptDir, 'layouts')) ? scriptDir : resolve(scriptDir, '..')
 const userRoot = process.cwd()
+const { parseDeck, resolveDeckConfig, checkKitSlides, slideTokens, markdownImages } = await import(pathToFileURL(join(packageRoot, 'lib/deck-contract.mjs')).href)
+const { isKitPreset } = await import(pathToFileURL(join(packageRoot, 'lib/kit-presets.mjs')).href)
 
 const layouts = new Set(
   readdirSync(join(packageRoot, 'layouts'))
@@ -119,15 +121,18 @@ function parseFrontmatter(block) {
   }
 }
 
-function checkAsset(file, line, label, raw) {
+function checkAsset(file, line, label, raw, checkRelative = false) {
   if (!raw || /^(https?:|data:|blob:|mailto:|#)/.test(raw)) return
   const path = raw.split(/[?#]/)[0].trim()
   if (!path) return
   const candidates = []
   if (path.startsWith('/')) candidates.push(join(userRoot, 'public', path.slice(1)))
+  // Only actual distributed theme assets are accepted; no namespace bypass.
+  if (path.startsWith('/slidev-kit/') && !path.split('/').includes('..')) candidates.push(join(packageRoot, 'public', path.slice(1)))
   if (path.startsWith('data/')) candidates.push(join(userRoot, path), join(userRoot, 'public', path))
   if (path.startsWith('/data/')) candidates.push(join(userRoot, path.slice(1)))
   if (path.startsWith('public/')) candidates.push(join(userRoot, path))
+  if (candidates.length === 0 && checkRelative) candidates.push(resolve(userRoot, dirname(file), path))
   if (candidates.length === 0) return
   if (!candidates.some((candidate) => existsSync(candidate))) {
     error(file, line, `${label}のパスがありません: ${raw}`)
@@ -145,23 +150,41 @@ const mdFiles = entryArgs.length ? entryArgs : [...rootMarkdown, ...exampleMarkd
 
 for (const file of mdFiles) {
   const text = readFileSync(join(userRoot, file), 'utf8')
-  const blocks = [...text.matchAll(/^---\r?\n([\s\S]*?)\r?\n---[ \t]*$/gm)]
-  if (blocks.length === 0) {
-    error(file, 1, 'frontmatterがありません')
+  let deck, config
+  try {
+    deck = await parseDeck(text, resolve(userRoot, file))
+    config = resolveDeckConfig(deck, resolve(userRoot, file))
+  } catch (cause) {
+    error(file, 1, cause.message)
     continue
   }
-
-  const slides = blocks.map((match, index) => {
-    const bodyStart = match.index + match[0].length
-    const bodyEnd = index + 1 < blocks.length ? blocks[index + 1].index : text.length
-    return {
-      ...parseFrontmatter(match[1]),
-      body: text.slice(bodyStart, bodyEnd),
-      bodyStart,
-      line: lineAt(text, match.index),
-      index: index + 1,
+  const kit = isKitPreset(config.themeConfig.variant)
+  let slides
+  if (kit) {
+    errors.push(...checkKitSlides(deck, file, config.themeConfig))
+    slides = deck.slides.map((slide, index) => ({
+      ...slide.frontmatter, body: slide.content, line: slide.start + 1, index: index + 1,
+      images: markdownImages(slideTokens(slide)),
+    }))
+  } else {
+    const blocks = [...text.matchAll(/^---\r?\n([\s\S]*?)\r?\n---[ \t]*$/gm)]
+    if (blocks.length === 0) {
+      error(file, 1, 'frontmatterがありません')
+      continue
     }
-  })
+
+    slides = blocks.map((match, index) => {
+      const bodyStart = match.index + match[0].length
+      const bodyEnd = index + 1 < blocks.length ? blocks[index + 1].index : text.length
+      return {
+        ...parseFrontmatter(match[1]),
+        body: text.slice(bodyStart, bodyEnd),
+        bodyStart,
+        line: lineAt(text, match.index),
+        index: index + 1,
+      }
+    })
+  }
 
   const headVariant = slides[0]?.variant
   const headColorSchema = slides[0]?.colorSchema
@@ -170,58 +193,63 @@ for (const file of mdFiles) {
 
   for (const slide of slides) {
     const { layout } = slide
-    if (!layout) {
-      error(file, slide.line, 'layoutがありません')
-      continue
-    }
-    if (!layouts.has(layout)) error(file, slide.line, `不明なlayout: ${layout}`)
+    if (!kit) {
+      if (!layout) {
+        error(file, slide.line, 'layoutがありません')
+        continue
+      }
+      if (!layouts.has(layout)) error(file, slide.line, `不明なlayout: ${layout}`)
 
-    const variant = slide.variant ?? headVariant
-    if (variant && !variants.has(variant)) error(file, slide.line, `不明なvariant: ${variant}`)
-    const colorSchema = slide.colorSchema ?? headColorSchema
-    if (variant === 'dark' && colorSchema !== 'dark' && !warnedDarkColorSchema) {
-      warning(file, slide.line, 'variant: darkではcolorSchema: darkも指定してください')
-      warnedDarkColorSchema = true
-    }
+      const variant = slide.variant ?? headVariant ?? config.themeConfig.variant
+      if (variant && !variants.has(variant)) error(file, slide.line, `不明なvariant: ${variant}`)
+      const colorSchema = slide.colorSchema ?? headColorSchema
+      if (variant === 'dark' && colorSchema !== 'dark' && !warnedDarkColorSchema) {
+        warning(file, slide.line, 'variant: darkではcolorSchema: darkも指定してください')
+        warnedDarkColorSchema = true
+      }
 
-    if (layout !== 'end' && !slide.title) error(file, slide.line, `${layout}にtitleがありません`)
-    if (slide.textSize && !['large', 'medium', 'small'].includes(slide.textSize)) error(file, slide.line, `不明なtextSize: ${slide.textSize}`)
-    if (slide.columns && !['2', '3'].includes(slide.columns)) error(file, slide.line, 'columnsは2または3を指定してください')
-    if (slide.density && !['presentation', 'hybrid', 'reading'].includes(slide.density))
-      error(file, slide.line, `不明なdensity: ${slide.density}`)
-    if (layout === 'content') {
-      if (slide.arrangement && !arrangementNames.has(slide.arrangement)) error(file, slide.line, `不明なarrangement: ${slide.arrangement}`)
-      if (slide.ratio && !/^[1-9]:[1-9]$/.test(slide.ratio)) error(file, slide.line, 'ratioは7:3のような正の比率で指定してください')
-    }
+      if (layout !== 'end' && !slide.title) error(file, slide.line, `${layout}にtitleがありません`)
+      if (slide.textSize && !['large', 'medium', 'small'].includes(slide.textSize)) error(file, slide.line, `不明なtextSize: ${slide.textSize}`)
+      if (slide.columns && !['2', '3'].includes(slide.columns)) error(file, slide.line, 'columnsは2または3を指定してください')
+      if (slide.density && !['presentation', 'hybrid', 'reading'].includes(slide.density))
+        error(file, slide.line, `不明なdensity: ${slide.density}`)
+      if (layout === 'content') {
+        if (slide.arrangement && !arrangementNames.has(slide.arrangement)) error(file, slide.line, `不明なarrangement: ${slide.arrangement}`)
+        if (slide.ratio && !/^[1-9]:[1-9]$/.test(slide.ratio)) error(file, slide.line, 'ratioは7:3のような正の比率で指定してください')
+      }
 
-    if (slide.title) {
-      if (titles.has(slide.title)) {
-        error(file, slide.line, `titleが重複しています: ${slide.title}（${titles.get(slide.title)}枚目）`)
-      } else {
-        titles.set(slide.title, slide.index)
+      if (slide.title) {
+        if (titles.has(slide.title)) {
+          error(file, slide.line, `titleが重複しています: ${slide.title}（${titles.get(slide.title)}枚目）`)
+        } else {
+          titles.set(slide.title, slide.index)
+        }
+      }
+
+      const rule = slotRules[layout]
+      const slots = [...slide.body.matchAll(/^::([a-zA-Z0-9_-]+)::\s*$/gm)].map((match) => match[1])
+      if (rule) {
+        for (const slot of slots) {
+          if (!rule.allowed.includes(slot)) error(file, slide.line, `${layout}で使えないスロットです: ::${slot}::`)
+        }
+        const missing = rule.recommended.filter(
+          (slot) => !slots.includes(slot) && !(layout === 'figure' && slot === 'figure' && slide.chart),
+        )
+        if (missing.length > 0) {
+          warning(file, slide.line, `${layout}のスロットがありません: ${missing.map((slot) => `::${slot}::`).join(', ')}`)
+        }
+      }
+
+      const hasFigure = layout === 'figure' && Boolean(slide.chart || slots.includes('figure'))
+      if (hasFigure && !/^>\s*(データ|出典)\s*[:：]/m.test(slide.body)) {
+        warning(file, slide.line, 'figureに出典行がありません（例: > データ: data/xxx.csv）')
       }
     }
 
-    const rule = slotRules[layout]
-    const slots = [...slide.body.matchAll(/^::([a-zA-Z0-9_-]+)::\s*$/gm)].map((match) => match[1])
-    if (rule) {
-      for (const slot of slots) {
-        if (!rule.allowed.includes(slot)) error(file, slide.line, `${layout}で使えないスロットです: ::${slot}::`)
-      }
-      const missing = rule.recommended.filter(
-        (slot) => !slots.includes(slot) && !(layout === 'figure' && slot === 'figure' && slide.chart),
-      )
-      if (missing.length > 0) {
-        warning(file, slide.line, `${layout}のスロットがありません: ${missing.map((slot) => `::${slot}::`).join(', ')}`)
-      }
+    if (kit) {
+      for (const src of slide.images) checkAsset(file, slide.line, '画像', src, true)
     }
-
-    const hasFigure = layout === 'figure' && Boolean(slide.chart || slots.includes('figure'))
-    if (hasFigure && !/^>\s*(データ|出典)\s*[:：]/m.test(slide.body)) {
-      warning(file, slide.line, 'figureに出典行がありません（例: > データ: data/xxx.csv）')
-    }
-
-    for (const match of slide.body.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+["'][^"']*["'])?\)/g)) {
+    for (const match of (kit ? [] : slide.body.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+["'][^"']*["'])?\)/g))) {
       checkAsset(file, lineAt(text, slide.bodyStart + match.index), '画像', match[1])
     }
     for (const match of slide.body.matchAll(/<Chart\b[\s\S]*?\/?>/g)) {

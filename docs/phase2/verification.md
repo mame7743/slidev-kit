@@ -1,5 +1,7 @@
 # Phase2第1段階 検証結果
 
+以下は第1段階時点の記録。後続の[配布asset・旧デザイン互換確認](distribution-legacy-verification.md)でCLI root public欠落を再現・修正し、旧default/mono/dark/acmeの代表5IDを実Chromiumで検証した。その後、[CLI入力契約の整合・実CLI E2E](cli-contract-verification.md)でchecker不整合を修正し、隔離環境の実CLI buildも成功した。以下の件数・制約は第1段階当時の記録であり、後続の検証結果と区別する。
+
 ## 実行済み
 
 - `npx vitest run packages/core/tests/phase2.test.mjs packages/core/tests/phase1.test.mjs`: 12 tests成功。
@@ -32,6 +34,6 @@
 ## 独立レビュー
 
 - 今回の差分に起因する修正必須の新規不具合は確認されなかった。親セッションでも84テスト・型検査・カタログ照合・両デッキ入力検査・両ビルドを再実行し、代表画像を目視した。
-- 既存の配布上の懸念：`packages/cli/package.json` の `files` にルート `public` がなく、prepackでコピーした画像とVite aliasの参照先が公開tarballで一致するか未検証。公開前にtarball内容と画像付きデッキの隔離ビルドを確認する。今回のEditorial固有asset追加やmanifest変更に起因する問題ではない。
+- 当時の既存配布懸念（ルート `public` の収録漏れ）は、後続の[配布確認](distribution-legacy-verification.md)で再現・修正した。npm registryへの公開・取得そのものの試験ではない。
 - 非preset指定時の7 IDのCorporate fallbackと、Mermaid setupが設定を返さない挙動の不整合は既存事項。今回の両presetの検証対象とは区別する。
 - 同一マウント後のpreset切替とMermaid再描画、旧デザイン全体の実ブラウザ互換性は未検証。

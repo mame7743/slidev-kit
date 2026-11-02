@@ -9,6 +9,12 @@
 - Corporateの既存本文、catalog、previewは変更しない。Editorialサンプルは同じレジストリから生成する。
 - 単体テスト、verify、catalog/phase1/phase2チェック、両サンプルbuild、実Chromiumの両preset全10枚と全variant/density、可能ならPDFを検証する。成果物はdist/phase2-verificationへ隔離する。
 
+## 配布・旧デザイン互換の追加確認
+
+[配布asset・旧デザイン互換の検証記録](distribution-legacy-verification.md)を参照。CLI tarballのpublic whitelist修正と旧default/mono/dark/acmeの5ID実ブラウザ検査を追加した。
+
+続いて[CLI入力契約の整合・実CLI E2E](cli-contract-verification.md)で旧checkerのKit入力拒否を修正し、隔離インストールした `slidev-kit build` の両preset成功と不正入力拒否を確認した。最新の検証結果は各成果物ディレクトリの `latest.json` の状態・run参照から確認する。
+
 ## 利用
 
 `examples/phase2/slides.md` を参照。本文を変えず、headmatterの `themeConfig.variant` を `editorial` に設定する。スライド直下の `variant` は構造の選択（balanced/left/right等）でありデザイン名ではない。
