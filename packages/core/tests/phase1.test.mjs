@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { checkDeck, registry, root, slideTemplate, sampleDeck, headmatter, validateRegistry } from '../../../scripts/phase1/phase1-lib.mjs'
+import { checkDeck, registry, root, slideTemplate, sampleDeck, phase1Registry, headmatter, validateRegistry } from '../../../scripts/phase1/phase1-lib.mjs'
 
 const valid = (id, body, extra = '') => `---\nlayout: ${id}\n${extra}---\n\n${body}\n`
 
 describe('Phase 1 public registry', () => {
-  it('contains exactly the ten implemented public IDs', () => {
-    expect(registry.map(l => l.id)).toEqual(['cover', 'section', 'content', 'split', 'comparison', 'cards', 'visual', 'chart', 'table', 'roadmap'])
+  it('pins the original ten fixture IDs and validates the public registry', () => {
+    expect(phase1Registry.map(l => l.id)).toEqual(['cover', 'section', 'content', 'split', 'comparison', 'cards', 'visual', 'chart', 'table', 'roadmap'])
     expect(validateRegistry(registry)).toBe(registry)
     for (const layout of registry) expect(existsSync(join(root, `packages/core/layouts/${layout.id}.vue`))).toBe(true)
   })

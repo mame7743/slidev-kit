@@ -1,5 +1,7 @@
 # Phase 2 第1段階: Corporate / Editorial
 
+> この節は第1段階の記録です。現在は[第2段階：公開17ID・40候補の状態と使用法](layout-expansion-plan.md)を実装済み。[追加検証結果](expansion-verification.md)も参照。
+
 ## 仕様・受け入れ条件
 
 - 公開10IDと本文・slot・layout.variant・density契約はPhase1のまま。40ID化、Talk、AI/GUIは対象外。

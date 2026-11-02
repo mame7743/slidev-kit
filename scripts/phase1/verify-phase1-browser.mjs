@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { setTimeout as delay } from 'node:timers/promises'
 import { chromium } from 'playwright-chromium'
 import { PDFDocument } from 'pdf-lib'
-import { registry, root } from './phase1-lib.mjs'
+import { phase1Registry as registry, root } from './phase1-lib.mjs'
 
 // A dedicated server means this check does not depend on a manually started dev session.
 const socket = createServer()

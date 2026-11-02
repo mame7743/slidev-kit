@@ -62,6 +62,8 @@
     "catalog:check": "node scripts/phase1/generate-catalog.mjs --check",
     "phase1:check": "node scripts/phase1/check-phase1.mjs",
     "phase1:browser": "node scripts/phase1/verify-phase1-browser.mjs",
+    "phase2:expansion:check": "node scripts/phase2/check-expansion.mjs",
+    "phase2:expansion:browser": "node scripts/phase2/verify-phase2-browser.mjs --expansion --corporate && node scripts/phase2/verify-phase2-browser.mjs --expansion",
     "phase2:check": "node scripts/phase2/check-phase2.mjs",
     "phase2:browser": "node scripts/phase2/verify-phase2-browser.mjs --corporate && node scripts/phase2/verify-phase2-browser.mjs"
   },

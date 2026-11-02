@@ -12,6 +12,12 @@
 - [仕様・利用ガイド](phase2/README.md)：Corporate / Editorial、10IDの互換性
 - [検証結果](phase2/verification.md)：実Chromium・図表・PDF・Corporate画像比較
 
+## Phase 2 第2段階：公開17ID
+
+- [40候補の状態・追加7IDの仕様と使用法](phase2/layout-expansion-plan.md)：実装済17/次候補9/保留14
+- [17ID検証結果](phase2/expansion-verification.md)：両preset・境界・実CLI・legacy・PDFと制約
+- [17枚の追加例](../examples/phase2-expansion/slides.md)：既存10枚例とは分離
+
 ## 既存の拡張機能
 
 - [デザイン拡張](designs.md)

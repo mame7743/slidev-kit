@@ -13,4 +13,4 @@ if (process.argv.includes('--write')) {
 }
 assert.equal(readFileSync(path, 'utf8'), editorialDeck(), 'Regenerate with node scripts/phase2/check-phase2.mjs --write')
 assert.deepEqual(await checkDeck(readFileSync(path, 'utf8'), path), [])
-console.log('Phase2: Editorial sample matches the shared ten-layout registry; deck contract passed.')
+console.log('Phase2: Editorial sample matches the original ten-layout fixture; deck contract passed.')

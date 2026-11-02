@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useKitContext } from '../../composables/useKitContext.mjs'
-import { normalizeKitPreset } from '../../lib/kit-presets.mjs'
+import { isKitPreset, normalizeKitPreset } from '../../lib/kit-presets.mjs'
 import '../../designs/shared/tokens.css'
 import '../../designs/shared/structure.css'
 import '../../designs/editorial/tokens.css'
@@ -20,6 +20,11 @@ let observer: ResizeObserver | undefined
 let mutations: MutationObserver | undefined
 let timer: ReturnType<typeof setTimeout> | undefined
 let warned = false
+// kit preset は本文Markdownだけを描画するため、旧frontmatter方式の指定は黙って消える。
+const legacyKeys = ['title', 'subtitle', 'note', 'takeaway'].filter(key => (props.frontmatter ?? frontmatter)[key] !== undefined)
+if (isKitPreset(themeConfig.variant) && legacyKeys.length) {
+  console.warn(`[slidev-kit] slide ${page.value}: frontmatter ${legacyKeys.join('/')} is ignored in the kit preset; write it as an H1 or body text in the slide.`)
+}
 function checkOverflow() {
   const el = root.value
   if (!el) return
@@ -70,10 +75,22 @@ onBeforeUnmount(() => { observer?.disconnect(); mutations?.disconnect(); clearTi
         <section class="kit-region kit-panel"><slot name="left" /></section>
         <section class="kit-region kit-panel"><slot name="right" /></section>
       </div>
-      <div v-if="kind === 'cards'" class="kit-cards">
+      <div v-if="['cards', 'metrics', 'process'].includes(kind)" :class="`kit-${kind}`">
         <section class="kit-region kit-panel"><slot name="first" /></section>
         <section class="kit-region kit-panel"><slot name="second" /></section>
         <section class="kit-region kit-panel"><slot name="third" /></section>
+      </div>
+      <div v-if="kind === 'summary'" class="kit-summary">
+        <section class="kit-region kit-panel"><slot name="evidence" /></section>
+        <section class="kit-region kit-panel"><slot name="request" /></section>
+      </div>
+      <div v-if="kind === 'quote'" class="kit-quote">
+        <section class="kit-region kit-panel"><slot name="quote" /></section>
+        <section class="kit-region kit-panel"><slot name="attribution" /></section>
+      </div>
+      <div v-if="kind === 'code'" class="kit-code">
+        <section class="kit-region kit-panel"><slot name="code" /></section>
+        <section class="kit-region kit-panel"><slot name="explanation" /></section>
       </div>
     </main>
     <footer class="kit-footer">

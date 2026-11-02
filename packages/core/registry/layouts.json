@@ -101,5 +101,252 @@
     "notes": ["標準Markdown表を表示する。Ganttや時間軸への自動変換ではない。", "phase名や時期は1列目に記載する。"],
     "template": "catalog/templates/roadmap.md", "preview": "catalog/previews/roadmap.png",
     "markdown": "# 開発ロードマップ\n\n| Phase | 目標 | 取り組み |\n|---|---|---|\n| 1 | 基盤構築 | レイアウト・テーマ |\n| 2 | 執筆体験の拡充 | 40レイアウト・デザイン切替 |\n| 3 | AI連携 | 対話生成・品質改善 |"
+  },
+  {
+    "id": "agenda",
+    "name": "アジェンダ",
+    "category": "presentation",
+    "description": "説明の順序を番号付きで伝える",
+    "use_cases": [
+      "agenda"
+    ],
+    "slots": [],
+    "variants": [
+      "balanced"
+    ],
+    "density": [
+      "relaxed",
+      "normal",
+      "compact"
+    ],
+    "content_guide": "順序付き3〜6項目、各補足1行まで",
+    "notes": [
+      "Corporate / Editorial専用のKit契約。H1はちょうど1つ、named slotより前に置く。",
+      "情報量目安を超えた場合は警告を確認し、内容を削除・省略・自動縮小しない。"
+    ],
+    "template": "catalog/templates/agenda.md",
+    "preview": "catalog/previews/agenda.png",
+    "markdown": "# 本日の流れ\n\n1. 背景と課題\n2. 提案する方式\n3. 検証結果\n4. 次の判断"
+  },
+  {
+    "id": "summary",
+    "name": "まとめ",
+    "category": "logic",
+    "description": "結論から根拠と判断依頼へつなぐ",
+    "use_cases": [
+      "summary"
+    ],
+    "slots": [
+      {
+        "name": "evidence",
+        "required": true,
+        "description": "判断の根拠"
+      },
+      {
+        "name": "request",
+        "required": true,
+        "description": "判断依頼"
+      }
+    ],
+    "variants": [
+      "balanced"
+    ],
+    "density": [
+      "relaxed",
+      "normal",
+      "compact"
+    ],
+    "content_guide": "冒頭結論1〜2文、各slot2〜3項目",
+    "notes": [
+      "Corporate / Editorial専用のKit契約。H1はちょうど1つ、named slotより前に置く。",
+      "情報量目安を超えた場合は警告を確認し、内容を削除・省略・自動縮小しない。"
+    ],
+    "template": "catalog/templates/summary.md",
+    "preview": "catalog/previews/summary.png",
+    "markdown": "# 提案のまとめ\n\n来月から小規模試行を始めます。\n\n::evidence::\n\n## 判断の根拠\n\n- 手作業時間を削減できる\n- 既存環境で試せる\n\n::request::\n\n## 承認いただきたいこと\n\n- 対象を1案件にする\n- 担当者を1名決める"
+  },
+  {
+    "id": "end",
+    "name": "締め",
+    "category": "presentation",
+    "description": "締めの言葉と問い合わせ先を残す",
+    "use_cases": [
+      "end"
+    ],
+    "slots": [],
+    "variants": [
+      "balanced"
+    ],
+    "density": [
+      "relaxed",
+      "normal",
+      "compact"
+    ],
+    "content_guide": "H1、締め1行、連絡先1〜2行",
+    "notes": [
+      "Corporate / Editorial専用のKit契約。H1はちょうど1つ、named slotより前に置く。",
+      "情報量目安を超えた場合は警告を確認し、内容を削除・省略・自動縮小しない。"
+    ],
+    "template": "catalog/templates/end.md",
+    "preview": "catalog/previews/end.png",
+    "markdown": "# ご清聴ありがとうございました\n\nご質問をお受けします。\n\n開発チーム\\\n[お問い合わせ](mailto:team@example.com)"
+  },
+  {
+    "id": "quote",
+    "name": "引用",
+    "category": "information",
+    "description": "引用本文と帰属を独立して提示する",
+    "use_cases": [
+      "quote"
+    ],
+    "slots": [
+      {
+        "name": "quote",
+        "required": true,
+        "description": "blockquoteによる引用"
+      },
+      {
+        "name": "attribution",
+        "required": true,
+        "description": "著者・資料名"
+      }
+    ],
+    "variants": [
+      "balanced"
+    ],
+    "density": [
+      "relaxed",
+      "normal",
+      "compact"
+    ],
+    "content_guide": "引用2〜4行、著者・資料名1〜2行",
+    "notes": [
+      "Corporate / Editorial専用のKit契約。H1はちょうど1つ、named slotより前に置く。",
+      "情報量目安を超えた場合は警告を確認し、内容を削除・省略・自動縮小しない。"
+    ],
+    "template": "catalog/templates/quote.md",
+    "preview": "catalog/previews/quote.png",
+    "markdown": "# 設計方針を共有する\n\n::quote::\n\n> 内容を先に書き、見た目は共通の仕組みに任せる。\n\n::attribution::\n\n設計ガイド、2026年、12ページ"
+  },
+  {
+    "id": "metrics",
+    "name": "主要指標",
+    "category": "analysis",
+    "description": "値と単位を指標名より大きく示す",
+    "use_cases": [
+      "metrics"
+    ],
+    "slots": [
+      {
+        "name": "first",
+        "required": true,
+        "description": "first領域"
+      },
+      {
+        "name": "second",
+        "required": true,
+        "description": "second領域"
+      },
+      {
+        "name": "third",
+        "required": true,
+        "description": "third領域"
+      }
+    ],
+    "variants": [
+      "balanced"
+    ],
+    "density": [
+      "relaxed",
+      "normal",
+      "compact"
+    ],
+    "content_guide": "3指標固定、H2に値・単位、本文に名称・比較時点",
+    "notes": [
+      "Corporate / Editorial専用のKit契約。H1はちょうど1つ、named slotより前に置く。",
+      "情報量目安を超えた場合は警告を確認し、内容を削除・省略・自動縮小しない。"
+    ],
+    "template": "catalog/templates/metrics.md",
+    "preview": "catalog/previews/metrics.png",
+    "markdown": "# 試行で得られた主要指標\n\n::first::\n\n## 36 時間\n\n月間作業時間\\\n前月: 54時間\n\n::second::\n\n## 98 %\n\n処理成功率\\\n対象: 100件\n\n::third::\n\n## 4 件\n\n未解決の課題\\\n集計: 11月末"
+  },
+  {
+    "id": "process",
+    "name": "工程",
+    "category": "planning",
+    "description": "番号と方向で3工程の順序を示す",
+    "use_cases": [
+      "process"
+    ],
+    "slots": [
+      {
+        "name": "first",
+        "required": true,
+        "description": "first領域"
+      },
+      {
+        "name": "second",
+        "required": true,
+        "description": "second領域"
+      },
+      {
+        "name": "third",
+        "required": true,
+        "description": "third領域"
+      }
+    ],
+    "variants": [
+      "balanced"
+    ],
+    "density": [
+      "relaxed",
+      "normal",
+      "compact"
+    ],
+    "content_guide": "3工程固定、各見出し1行、説明2行まで",
+    "notes": [
+      "Corporate / Editorial専用のKit契約。H1はちょうど1つ、named slotより前に置く。",
+      "情報量目安を超えた場合は警告を確認し、内容を削除・省略・自動縮小しない。"
+    ],
+    "template": "catalog/templates/process.md",
+    "preview": "catalog/previews/process.png",
+    "markdown": "# 検証を進める3工程\n\n::first::\n\n## 対象を決める\n\n対象と完了条件を合意する。\n\n::second::\n\n## 小さく試す\n\n1案件で方式を検証する。\n\n::third::\n\n## 結果を判断する\n\n継続・修正・中止を決める。"
+  },
+  {
+    "id": "code",
+    "name": "コード解説",
+    "category": "structure",
+    "description": "実行せずコードと解説を並べる",
+    "use_cases": [
+      "code"
+    ],
+    "slots": [
+      {
+        "name": "code",
+        "required": true,
+        "description": "標準fenceのコード"
+      },
+      {
+        "name": "explanation",
+        "required": true,
+        "description": "解説"
+      }
+    ],
+    "variants": [
+      "balanced"
+    ],
+    "density": [
+      "relaxed",
+      "normal",
+      "compact"
+    ],
+    "content_guide": "コード8〜14行、解説3項目まで",
+    "notes": [
+      "Corporate / Editorial専用のKit契約。H1はちょうど1つ、named slotより前に置く。",
+      "情報量目安を超えた場合は警告を確認し、内容を削除・省略・自動縮小しない。"
+    ],
+    "template": "catalog/templates/code.md",
+    "preview": "catalog/previews/code.png",
+    "markdown": "# 設定をファイルとして残す\n\n::code::\n\n```js\nconst options = {\n  format: 'pdf',\n  theme: 'corporate',\n}\n\nconsole.log(options.format)\n```\n\n::explanation::\n\n## 読み取るポイント\n\n- 設定をまとめて定義する\n- 出力形式を明示する\n- 秘密情報は書かない"
   }
 ]

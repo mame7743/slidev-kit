@@ -87,6 +87,49 @@ export function checkKitSlides(deck, filename, themeConfig = deck.slides[0]?.fro
       }
     }
     if (!tokens.some(t => t.type === 'heading_open' && t.tag === 'h1' && t.level === 0)) errors.push(`${prefix}: Markdown H1 title is required`)
+    // Expansion contracts are opt-in by ID; do not tighten legacy ten-layout rules.
+    if (['agenda', 'summary', 'end', 'quote', 'metrics', 'process', 'code'].includes(layout.id)) {
+      const fail = message => errors.push(`${prefix}: ${message}`)
+      const titles = tokens.filter(t => t.type === 'heading_open' && t.tag === 'h1')
+      if (titles.length !== 1) fail('exactly one Markdown H1 is required')
+      const firstSlot = tokens.findIndex(t => slotName(t))
+      const title = tokens.findIndex(t => t.type === 'heading_open' && t.tag === 'h1')
+      if (firstSlot >= 0 && title > firstSlot) fail('H1 must precede named slots')
+      const region = name => {
+        const start = tokens.findIndex(t => slotName(t) === name)
+        if (start < 0) return []
+        const end = tokens.findIndex((t, i) => i > start && slotName(t))
+        return tokens.slice(start + 1, end < 0 ? undefined : end)
+      }
+      const hasBody = items => {
+        let heading = false
+        return items.some(t => {
+          if (t.type === 'heading_open') heading = true
+          if (t.type === 'heading_close') heading = false
+          return !heading && ((t.type === 'inline' && t.content.trim()) || ['fence', 'code_block'].includes(t.type))
+        })
+      }
+      for (const slot of layout.slots) if (slots.includes(slot.name) && !hasBody(region(slot.name))) fail(`empty required slot body: ${slot.name}`)
+      const intro = tokens.slice(0, firstSlot < 0 ? undefined : firstSlot)
+      if (layout.id === 'agenda') {
+        const lists = tokens.filter(t => t.type === 'ordered_list_open' && t.level === 0)
+        if (lists.length !== 1) fail('agenda requires one ordered list')
+        const count = tokens.filter(t => t.type === 'list_item_open' && t.level === 1).length
+        if (count < 3 || count > 6) fail('agenda requires 3–6 ordered items')
+      }
+      if (['summary', 'end'].includes(layout.id) && !hasBody(intro)) fail(`${layout.id} requires body after H1`)
+      if (layout.id === 'end' && intro.filter(t => t.type === 'paragraph_open' && t.level === 0).length < 2) fail('end requires closing and contact paragraphs')
+      if (layout.id === 'quote' && region('quote').filter(t => t.type === 'blockquote_open').length !== 1) fail('quote requires one blockquote')
+      if (['metrics', 'process'].includes(layout.id)) for (const name of ['first', 'second', 'third']) {
+        const items = region(name)
+        if (items.filter(t => t.type === 'heading_open' && t.tag === 'h2').length !== 1) fail(`${name} requires one H2`)
+        if (layout.id === 'metrics') {
+          const index = items.findIndex(t => t.type === 'heading_open' && t.tag === 'h2')
+          if (index >= 0 && !/\d.*[^\d\s.,]/u.test(items[index + 1]?.content ?? '')) fail(`${name} requires value and unit in H2`)
+        }
+      }
+      if (layout.id === 'code' && region('code').filter(t => t.type === 'fence').length !== 1) fail('code requires one standard fenced block')
+    }
   }
   return errors
 }

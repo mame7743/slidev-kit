@@ -54,3 +54,29 @@
 .kit-slide[data-layout='roadmap'] td:first-child { color: var(--kit-accent); font-weight: 750; width: 18%; }
 .kit-slide[data-layout='roadmap'] td { padding-top: 20px; padding-bottom: 20px; }
 .kit-slide[data-density='compact'] th, .kit-slide[data-density='compact'] td { padding: 8px 12px; }
+/* Phase2 expansion: named-slot regions retain DOM order and preset tokens. */
+.kit-summary, .kit-metrics, .kit-process, .kit-code, .kit-quote {
+  display: grid; gap: var(--kit-space); min-height: 0; align-content: start;
+}
+.kit-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.kit-metrics, .kit-process { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kit-code { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.kit-slide[data-layout='agenda'] ol { padding-left: 2em; }
+.kit-slide[data-layout='agenda'] li { padding-left: .5em; margin: 18px 0; }
+.kit-slide[data-layout='agenda'] li::marker { color: var(--kit-accent); font-weight: 750; }
+.kit-slide[data-layout='end'] .kit-body { justify-content: center; text-align: center; }
+.kit-slide[data-layout='end'] h1 { font-size: var(--kit-title); }
+.kit-quote .kit-panel { border: 0; background: transparent; padding: 0; }
+.kit-quote blockquote { margin: 0; padding: var(--kit-space); color: var(--kit-text); font-size: 1.25em; }
+.kit-quote .kit-panel:last-child { text-align: right; color: var(--kit-muted); }
+.kit-metrics .kit-panel { border: 0; border-top: 4px solid var(--kit-accent); background: transparent; padding-left: 0; padding-right: 0; }
+.kit-metrics h2 { font-size: 42px; line-height: 1.2; }
+.kit-process { position: relative; counter-reset: kit-step; gap: calc(var(--kit-space) + 16px); }
+.kit-process .kit-panel { position: relative; counter-increment: kit-step; border: 0; border-top: 4px solid var(--kit-accent); }
+.kit-process .kit-panel::before { content: counter(kit-step, decimal-leading-zero); display: block; color: var(--kit-accent); font-weight: 750; margin-bottom: 12px; }
+.kit-process::before, .kit-process::after { content: '→'; position: absolute; top: 16px; color: var(--kit-accent); font-size: 24px; transform: translateX(-50%); }
+.kit-process::before { left: calc((100% - (var(--kit-space) + 16px) * 2) / 3 + (var(--kit-space) + 16px) / 2); }
+.kit-process::after { left: calc((100% - (var(--kit-space) + 16px) * 2) / 3 * 2 + (var(--kit-space) + 16px) * 1.5); }
+.kit-code .kit-panel { padding: 16px; }
+.kit-code pre { margin: 0; font-size: 17px; line-height: 1.45; }
+.kit-code pre code { font-size: inherit; }

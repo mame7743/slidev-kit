@@ -4,7 +4,7 @@
 
 ## Phase 1：Markdownだけで書く
 
-基本10レイアウトとCorporateデザインを、Slidev標準のMarkdown・名前付きスロット・Mermaidで利用できます。**AIの設定・APIキー・独自CLIは不要**です。既存のCLI・エージェント機能は後述のとおり引き続き利用できます。
+公開17レイアウトとCorporate / Editorialデザインを、Slidev標準のMarkdown・名前付きスロット・Mermaidで利用できます。**AIの設定・APIキー・独自CLIは不要**です。既存のCLI・エージェント機能は後述のとおり引き続き利用できます。
 
 ### 最初のプレビュー
 
@@ -80,7 +80,7 @@ npx slidev build examples/my-report/slides.md
 npx slidev export examples/my-report/slides.md --output dist/my-report.pdf
 ```
 
-`phase1:check` は今回の10 IDを対象とする検査です。従来の拡張レイアウトを含むデッキには既存CLIの検査を使ってください。
+`phase1:check` はKitの公開ID契約を検査します（既定サンプルは既存10枚）。従来の拡張レイアウトを含むデッキには既存CLIの検査を使ってください。
 
 ### カタログ・品質検証
 
@@ -94,6 +94,19 @@ npm run phase1:browser   # Chromiumで10枚・全variant/densityを検査し、P
 ブラウザ検証は `catalog/previews/*.png` を更新し、PDFとレポートを `dist/phase1-verification/` に出力します。通常のプレビュー・PDF出力にこの検証スクリプトは不要です。
 
 設計・標準APIとの分担は [docs/phase1/phase1-design.md](docs/phase1/phase1-design.md)、実施結果と既知の制約は [docs/phase1/phase1-verification.md](docs/phase1/phase1-verification.md) を参照してください。Talk・40レイアウト・独自Gantt・新規AI支援は後続Phaseです。
+
+## Phase 2 第2段階：公開17レイアウト
+
+既存10IDの後へ `agenda / summary / end / quote / metrics / process / code` を追加しました。Corporate / Editorialで同じMarkdown・slotを使えます。既存10枚サンプルとpreviewは維持しています。
+
+kit preset（`themeConfig.variant: corporate | editorial`）は本文Markdownだけを描画するため、frontmatterの `title` / `subtitle` / `note` / `takeaway` は無視され、console端に警告が出ます（旧テーマでは従来どおりfrontmatterを描画）。新しい7IDの本文はH1から書いてください。
+
+[7IDの使用法・40候補の実装状態](docs/phase2/layout-expansion-plan.md) / [17枚の追加例](examples/phase2-expansion/slides.md) / [検証結果と制約](docs/phase2/expansion-verification.md)
+
+```bash
+npm run phase2:expansion:check
+npm run phase2:expansion:browser
+```
 
 ## Phase 2 第1段階：本文を変えずにEditorialへ
 

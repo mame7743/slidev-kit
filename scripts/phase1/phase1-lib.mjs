@@ -23,6 +23,7 @@ export const headmatter = 'theme: ../../\nthemeConfig:\n  variant: corporate\n  
 export function slideTemplate(layout, head = '') {
   return `---\n${head}layout: ${layout.id}\nvariant: ${layout.variants[0]}\ndensity: normal\n---\n\n${layout.markdown}\n`
 }
-export function sampleDeck() {
-  return registry.map((layout, i) => slideTemplate(layout, i === 0 ? headmatter : '')).join('\n')
+export const phase1Registry = registry.slice(0, 10)
+export function sampleDeck(layouts = phase1Registry) {
+  return layouts.map((layout, i) => slideTemplate(layout, i === 0 ? headmatter : '')).join('\n')
 }

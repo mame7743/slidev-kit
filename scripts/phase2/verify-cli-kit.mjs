@@ -50,13 +50,13 @@ try {
   const probe = run(process.execPath, ['registry-probe.mjs'], project)
   const cli = join(project, 'node_modules/slidev-kit/bin/cli.mjs')
   const results = []
-  for (const [preset, phase] of [['corporate', 'phase1'], ['editorial', 'phase2']]) {
-    const source = readFileSync(join(root, `examples/${phase}/slides.md`), 'utf8').replace('theme: ../../', 'theme: slidev-kit')
+  for (const [preset, phase, count] of [['corporate', 'phase1', 10], ['editorial', 'phase2', 10], ['corporate-expansion', 'phase2-expansion', 17], ['editorial-expansion', 'phase2-expansion', 17]]) {
+    const source = readFileSync(join(root, `examples/${phase}/slides.md`), 'utf8').replace('theme: ../../', 'theme: slidev-kit').replace('variant: corporate', `variant: ${preset.startsWith('editorial') ? 'editorial' : 'corporate'}`)
     writeFileSync(join(project, `${preset}.md`), source)
     const check = run(process.execPath, [cli, 'build', `${preset}.md`, '--check-only'], project)
-    assert.match(check.stdout, /10 slides/)
+    assert.match(check.stdout, new RegExp(`${count} slides`))
     const build = run(process.execPath, [cli, 'build', `${preset}.md`, '--out', `dist/${preset}`], project)
-    assert.match(build.stdout, /10 slides/)
+    assert.match(build.stdout, new RegExp(`${count} slides`))
     assert(readFileSync(join(project, 'dist', preset, 'index.html'), 'utf8').includes('<html'))
     cpSync(join(project, 'dist', preset), join(output, preset), { recursive: true })
     const rejected = []
@@ -70,7 +70,7 @@ try {
       const rejection = run(process.execPath, [cli, 'build', 'invalid.md'], project, 1)
       rejected.push({ kind, exitCode: rejection.status, log: rejection.log })
     }
-    results.push({ preset, slides: 10, checkExitCode: check.status, checkLog: check.log, buildExitCode: build.status, buildLog: build.log, rejected })
+    results.push({ preset, slides: count, checkExitCode: check.status, checkLog: check.log, buildExitCode: build.status, buildLog: build.log, rejected })
   }
   verification.succeed({ scope: 'Installed tarball, real slidev-kit build/check entry; isolated current-source pack', slidev: manifest.devDependencies['@slidev/cli'], registryProbe: probe.log, results })
   console.log(`CLI Kit contract passed: ${output}`)
