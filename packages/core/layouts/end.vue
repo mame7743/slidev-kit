@@ -1,5 +1,5 @@
 <script setup>
-import KitSlide from '../components/layouts/KitSlide.vue'
+import KitSlide from '../components/kit/KitSlide.vue'
 import { useKitContext } from '../composables/useKitContext.mjs'
 import { isKitPreset } from '../lib/kit-presets.mjs'
 const { themeConfig } = useKitContext()

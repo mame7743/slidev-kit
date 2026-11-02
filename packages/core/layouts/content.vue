@@ -1,10 +1,10 @@
 <script setup>
 import DefaultLayout from '../interface/DefaultLayout.vue'
-import KitSlide from '../components/layouts/KitSlide.vue'
+import KitSlide from '../components/kit/KitSlide.vue'
 import { useKitContext } from '../composables/useKitContext.mjs'
 import { isKitPreset } from '../lib/kit-presets.mjs'
 const { themeConfig } = useKitContext()
-import ContentLayout from '../components/layouts/ContentLayout.vue'
+import ContentLayout from '../components/kit/ContentLayout.vue'
 defineProps({ frontmatter: { type: Object, required: true } })
 </script>
 <template>

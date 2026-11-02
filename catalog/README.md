@@ -7,6 +7,8 @@
 
 本文は標準Markdown、表、画像、MermaidとSlidevの名前付きslotだけで記述します。プレビュー画像は実ブラウザから生成しています。
 
+公開レイアウトの実体は `packages/core/layouts/*.vue`、共通描画は `packages/core/components/kit/` にあります。未登録実装を含む有効状態は [自動生成のレイアウト判定表](../docs/layout-inventory.md) を唯一の正として確認してください。
+
 ## 構成・本文
 
 | ID | 名前 | 用途 |

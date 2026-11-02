@@ -60,6 +60,8 @@
     "export": "npm run phase1:check && slidev export examples/phase1/slides.md --output dist/phase1.pdf",
     "catalog": "node scripts/phase1/generate-catalog.mjs",
     "catalog:check": "node scripts/phase1/generate-catalog.mjs --check",
+    "inventory": "node scripts/inventory/generate-inventory.mjs",
+    "inventory:check": "node scripts/inventory/generate-inventory.mjs --check",
     "phase1:check": "node scripts/phase1/check-phase1.mjs",
     "phase1:browser": "node scripts/phase1/verify-phase1-browser.mjs",
     "phase2:expansion:check": "node scripts/phase2/check-expansion.mjs",

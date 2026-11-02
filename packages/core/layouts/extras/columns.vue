@@ -1,5 +1,6 @@
+<!-- registry・catalog対象外（Slidev再帰走査で到達可能・テスト対象） -->
 <script setup>
-import ColumnsSlide from '../components/templates/ColumnsSlide.vue'
+import ColumnsSlide from '../../components/templates/ColumnsSlide.vue'
 defineProps({ frontmatter: Object, title: String, takeaway: [String, Boolean], section: String })
 </script>
 <template>

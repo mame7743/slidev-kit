@@ -30,7 +30,7 @@ function loadComponent(file) {
   new Function('require', 'module', 'exports', code)(localRequire, module, module.exports)
   return module.exports.default
 }
-const KitSlide = loadComponent(join(root, 'packages/core/components/layouts/KitSlide.vue'))
+const KitSlide = loadComponent(join(root, 'packages/core/components/kit/KitSlide.vue'))
 const render = (component, props, slots) => renderToString(createSSRApp({ render: () => h(component, props, slots) }))
 
 describe('Phase2 preset contract', () => {

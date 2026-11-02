@@ -14,7 +14,7 @@
     "packages/core/components/visuals/GanttChart.vue",
     "packages/core/components/visuals/FitBox.vue",
     "packages/core/components/visuals/CoverImage.vue",
-    "packages/core/components/layouts/**/*.vue",
+    "packages/core/components/kit/**/*.vue",
     "packages/core/lib/**/*.ts",
     "packages/core/setup/**/*.ts",
     "packages/core/tests/**/*.ts",
