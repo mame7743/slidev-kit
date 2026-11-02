@@ -1,0 +1,105 @@
+[
+  {
+    "id": "cover", "name": "表紙", "category": "presentation",
+    "description": "資料のタイトルと発表者を伝える",
+    "use_cases": ["opening", "technical_report"], "slots": [],
+    "variants": ["balanced", "dramatic"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "タイトル1〜2行、副題1行、発表者・日付各1行",
+    "notes": ["タイトルは本文のH1で記述する。従来デザインのtitle指定方式とは異なる。"],
+    "template": "catalog/templates/cover.md", "preview": "catalog/previews/cover.png",
+    "markdown": "# 技術報告を、もっとシンプルに\n\nWrite content. Let design happen.\n\n開発チーム / 2026年11月"
+  },
+  {
+    "id": "section", "name": "章扉", "category": "presentation",
+    "description": "話題の切り替えと章の目的を示す",
+    "use_cases": ["chapter", "transition"], "slots": [],
+    "variants": ["balanced", "dramatic"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "章タイトル1行、説明1〜2行",
+    "notes": ["詳細な説明は次のcontentへ分ける。"],
+    "template": "catalog/templates/section.md", "preview": "catalog/previews/section.png",
+    "markdown": "# 01 背景と目的\n\n資料作成の負担を減らし、伝える内容に集中する。"
+  },
+  {
+    "id": "content", "name": "標準本文", "category": "presentation",
+    "description": "文章と箇条書きで要点を説明する",
+    "use_cases": ["explanation", "progress_report"], "slots": [],
+    "variants": ["balanced"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "見出し1つ、箇条書き3〜5項目。compactでも7項目程度まで",
+    "notes": ["長文を無理に詰めず複数スライドに分ける。", "Corporateでは本文のみを使用する。既存のcolumns/autoFitは従来デザイン向け。"],
+    "template": "catalog/templates/content.md", "preview": "catalog/previews/content.png",
+    "markdown": "# 内容に集中できる執筆環境\n\n## Markdownを共通言語にする\n\n- **文章**はいつものエディタで編集\n- **構造**はレイアウトで選択\n- **装飾**はデザイントークンに委譲\n\n> 人間もAIも、同じ編集可能なファイルを扱う。"
+  },
+  {
+    "id": "split", "name": "2カラム", "category": "logic",
+    "description": "説明と補足情報を左右に配置する",
+    "use_cases": ["explanation_and_evidence", "text_and_diagram"],
+    "slots": [{"name":"left","required":true,"description":"左側の説明"},{"name":"right","required":true,"description":"右側の補足・図"}],
+    "variants": ["balanced", "left", "right"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "各カラム見出し1つ、箇条書き3項目程度",
+    "notes": ["H1はスロット指定の前に置く。left/rightは左右の領域を広くするvariant。"],
+    "template": "catalog/templates/split.md", "preview": "catalog/previews/split.png",
+    "markdown": "# 執筆と表示の役割分担\n\n::left::\n\n## Markdownで書く\n\n- 目的と結論\n- 根拠となる数値\n- 次のアクション\n\n::right::\n\n## Slidevで表示する\n\n- ホットリロード\n- ブラウザプレビュー\n- PDFへの出力"
+  },
+  {
+    "id": "comparison", "name": "対比", "category": "logic",
+    "description": "2つの対象の違いを同じ観点で示す",
+    "use_cases": ["before_after", "alternatives", "trade_offs"],
+    "slots": [{"name":"left","required":true,"description":"比較元"},{"name":"right","required":true,"description":"比較先"}],
+    "variants": ["balanced", "left", "right"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "各側3〜4項目。同じ比較観点で揃える",
+    "notes": ["一方だけ情報を増やさず、対応関係が分かるようにする。"],
+    "template": "catalog/templates/comparison.md", "preview": "catalog/previews/comparison.png",
+    "markdown": "# 新旧方式の比較\n\n::left::\n\n## 従来\n\n- 手動設定\n- 個別処理\n- 毎回の体裁調整\n\n::right::\n\n## 改善後\n\n- 自動設定\n- 標準化\n- 共通デザイン"
+  },
+  {
+    "id": "cards", "name": "カード一覧", "category": "information",
+    "description": "3つの独立した特徴を一覧にする",
+    "use_cases": ["features", "benefits", "pillars"],
+    "slots": [{"name":"first","required":true,"description":"1枚目"},{"name":"second","required":true,"description":"2枚目"},{"name":"third","required":true,"description":"3枚目"}],
+    "variants": ["balanced"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "3カード固定。各カード見出し1つ、本文2〜4行",
+    "notes": ["カード数可変や入れ子構造はPhase 1の対象外。"],
+    "template": "catalog/templates/cards.md", "preview": "catalog/previews/cards.png",
+    "markdown": "# 3つの設計原則\n\n::first::\n\n## 書きやすい\n\n標準Markdownと名前付きスロットで編集する。\n\n::second::\n\n## 揃えやすい\n\n色・文字・余白を共通トークンで統一する。\n\n::third::\n\n## 続けやすい\n\nAIなしで動作し、将来の拡張も妨げない。"
+  },
+  {
+    "id": "visual", "name": "図・画像中心", "category": "analysis",
+    "description": "画像やシステム図を大きく示す",
+    "use_cases": ["system_image", "simulation", "illustration"], "slots": [],
+    "variants": ["balanced"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "画像1点、タイトルと出典各1行",
+    "notes": ["通常はpublic/images/に画像を置き /images/name.png を指定する。", "この例はテーマ同梱の /slidev-kit/pipeline.svg を使うため、コピーだけで動く。altは画像の説明に置き換える。"],
+    "template": "catalog/templates/visual.md", "preview": "catalog/previews/visual.png",
+    "markdown": "# MarkdownからWeb・PDFへ\n\n![Markdown、Slidev Kit、PDF・Webの順に処理する構成図](/slidev-kit/pipeline.svg)\n\n> 出典: Slidev Kitの処理フロー（概念図）"
+  },
+  {
+    "id": "chart", "name": "グラフ中心", "category": "analysis",
+    "description": "標準Mermaidで数値の傾向を示す",
+    "use_cases": ["trend", "measurement", "results"], "slots": [],
+    "variants": ["balanced"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "グラフ1点、4〜8データ点、出典1行",
+    "notes": ["Phase 1はSlidev標準のMermaid xychart-betaを使う。", "値と軸の単位を明示する。グラフ構文の誤りはMermaidのエラーとして表示される。"],
+    "template": "catalog/templates/chart.md", "preview": "catalog/previews/chart.png",
+    "markdown": "# 自動化による作業時間の推移\n\n```mermaid\nxychart-beta\n  x-axis [Jan, Feb, Mar, Apr]\n  y-axis \"Hours\" 0 --> 100\n  bar [90, 72, 54, 36]\n```\n\n> データ: 説明用の架空値。単位は時間。"
+  },
+  {
+    "id": "table", "name": "データ表", "category": "information",
+    "description": "仕様や数値を行と列で整理する",
+    "use_cases": ["specifications", "measurements", "comparison_table"], "slots": [],
+    "variants": ["balanced"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "3〜5列、3〜6行。compactでも8行程度まで",
+    "notes": ["通常のMarkdown表。独自変換を行わず、データを削除しない。"],
+    "template": "catalog/templates/table.md", "preview": "catalog/previews/table.png",
+    "markdown": "# Phase 1の検証項目\n\n| 項目 | 方法 | 期待結果 |\n|---|---|---|\n| 執筆 | Markdown | HTML不要 |\n| 表示 | Slidevプレビュー | 10レイアウト |\n| 出力 | PDF | 文字・図表を保持 |\n| 動作 | AI未設定 | 基本機能が利用可能 |"
+  },
+  {
+    "id": "roadmap", "name": "ロードマップ", "category": "planning",
+    "description": "段階ごとの目標と取り組みを伝える",
+    "use_cases": ["development_plan", "adoption_plan", "phases"], "slots": [],
+    "variants": ["phases"], "density": ["relaxed", "normal", "compact"],
+    "content_guide": "3〜5フェーズ、3列程度",
+    "notes": ["標準Markdown表を表示する。Ganttや時間軸への自動変換ではない。", "phase名や時期は1列目に記載する。"],
+    "template": "catalog/templates/roadmap.md", "preview": "catalog/previews/roadmap.png",
+    "markdown": "# 開発ロードマップ\n\n| Phase | 目標 | 取り組み |\n|---|---|---|\n| 1 | 基盤構築 | レイアウト・テーマ |\n| 2 | 執筆体験の拡充 | 40レイアウト・デザイン切替 |\n| 3 | AI連携 | 対話生成・品質改善 |"
+  }
+]

@@ -8,7 +8,7 @@ const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const source = join(root, 'packages', 'core')
 if (!existsSync(source)) process.exit(0)
 
-for (const dir of ['layouts', 'interface', 'designs', 'components', 'composables', 'lib', 'setup', 'vite.config.ts']) {
+for (const dir of ['layouts', 'interface', 'designs', 'components', 'composables', 'lib', 'setup', 'public', 'vite.config.ts']) {
   const target = join(root, dir)
   if (existsSync(target)) continue
   symlinkSync(join('packages', 'core', dir), target, process.platform === 'win32' ? 'junction' : 'dir')

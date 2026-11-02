@@ -10,7 +10,7 @@ const packages = {
   'slidev-charts': ['package.json', 'README.md', 'components', 'src', 'templates', 'vite.config.ts'],
   'slidev-runner': ['package.json', 'README.md', 'src'],
   'slidev-mcp': ['package.json', 'src'],
-  'slidev-core': ['package.json', 'check.mjs', 'init.mjs', 'deck.mjs', 'deck.d.mts', 'templates', 'layouts', 'interface', 'designs', 'components', 'composables', 'lib', 'setup', 'scripts', 'vite.config.ts'],
+  'slidev-core': ['package.json', 'public', 'registry', 'check.mjs', 'init.mjs', 'deck.mjs', 'deck.d.mts', 'templates', 'layouts', 'interface', 'designs', 'components', 'composables', 'lib', 'setup', 'scripts', 'vite.config.ts'],
 }
 
 for (const [name, entries] of Object.entries(packages)) {

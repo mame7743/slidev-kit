@@ -45,6 +45,11 @@ export default defineConfig(async () => {
   return {
     resolve: {
       alias: {
+        // Also resolve self-references when this repository is used as a local theme.
+        // packages/core has its own package boundary, so Node self-resolution cannot find the root package.
+        'slidev-kit': packageRoot,
+        // Vue compiles Markdown images into imports; theme public assets are not in userRoot/public.
+        '/slidev-kit': join(packageRoot, 'public', 'slidev-kit'),
         // SFCからの import 'slidev-charts/...' を同梱位置へ向ける。
         'slidev-charts': chartsRoot(),
       },

@@ -1,0 +1,23 @@
+/* Shared semantic tokens. Future design presets override these, not layout DOM. */
+.kit-slide {
+  --kit-primary: #153c65;
+  --kit-accent: #007c83;
+  --kit-background: #ffffff;
+  --kit-surface: #eff5fa;
+  --kit-text: #172b40;
+  --kit-muted: #516579;
+  --kit-line: #cbd8e4;
+  --kit-chart-1: #007c83;
+  --kit-chart-2: #406fa5;
+  --kit-font: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans CJK JP', Arial, sans-serif;
+  --kit-title: 38px;
+  --kit-heading: 27px;
+  --kit-body: 24px;
+  --kit-leading: 1.55;
+  --kit-space: 24px;
+  --kit-padding: 44px;
+  --kit-radius: 10px;
+  --kit-border: 1px solid var(--kit-line);
+}
+.kit-slide[data-density='relaxed'] { --kit-body: 28px; --kit-space: 30px; --kit-padding: 50px; --kit-leading: 1.65; }
+.kit-slide[data-density='compact'] { --kit-body: 20px; --kit-space: 16px; --kit-padding: 32px; --kit-leading: 1.45; }

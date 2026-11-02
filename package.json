@@ -21,14 +21,14 @@
     "./interface/*": "./packages/core/interface/*"
   },
   "dependencies": {
-    "slidev-core": "file:packages/core",
-    "slidev-runner": "file:packages/runner",
-    "slidev-agent": "file:packages/agent",
-    "slidev-mcp": "file:packages/mcp",
-    "slidev-charts": "file:packages/charts",
     "@earendil-works/pi-agent-core": "1.4.0",
     "@earendil-works/pi-ai": "1.4.0",
     "@modelcontextprotocol/sdk": "^1.32.2",
+    "slidev-agent": "file:packages/agent",
+    "slidev-charts": "file:packages/charts",
+    "slidev-core": "file:packages/core",
+    "slidev-mcp": "file:packages/mcp",
+    "slidev-runner": "file:packages/runner",
     "yaml": "^2.8.0"
   },
   "peerDependencies": {
@@ -37,11 +37,16 @@
   },
   "devDependencies": {
     "@slidev/cli": "53.0.0",
-    "@types/node": "22.20.5",
-    "vitest": "5.0.5",
-    "vue": "3.5.24",
+    "@slidev/parser": "53.0.0",
     "@slidev/types": "53.0.0",
+    "@types/node": "22.20.5",
+    "ajv": "8.20.0",
+    "markdown-it": "14.3.3",
+    "pdf-lib": "1.17.1",
+    "playwright-chromium": "1.61.1",
     "typescript": "6.0.3",
+    "vitest": "5.0.5",
+    "vue": "3.5.44",
     "vue-tsc": "3.3.13"
   },
   "scripts": {
@@ -49,7 +54,14 @@
     "typecheck": "vue-tsc --noEmit",
     "verify": "npm test && npm run typecheck",
     "e2e": "node scripts/e2e.mjs",
-    "postinstall": "node scripts/sync-theme.mjs"
+    "postinstall": "node scripts/sync-theme.mjs",
+    "dev": "slidev examples/phase1/slides.md",
+    "build": "npm run phase1:check && slidev build examples/phase1/slides.md",
+    "export": "npm run phase1:check && slidev export examples/phase1/slides.md --output dist/phase1.pdf",
+    "catalog": "node scripts/phase1/generate-catalog.mjs",
+    "catalog:check": "node scripts/phase1/generate-catalog.mjs --check",
+    "phase1:check": "node scripts/phase1/check-phase1.mjs",
+    "phase1:browser": "node scripts/phase1/verify-phase1-browser.mjs"
   },
   "slidev": {
     "defaults": {

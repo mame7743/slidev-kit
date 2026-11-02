@@ -1,4 +1,101 @@
-# SlideKit
+# Slidev Kit
+
+**Write content. Let design happen.**
+
+## Phase 1：Markdownだけで書く
+
+基本10レイアウトとCorporateデザインを、Slidev標準のMarkdown・名前付きスロット・Mermaidで利用できます。**AIの設定・APIキー・独自CLIは不要**です。既存のCLI・エージェント機能は後述のとおり引き続き利用できます。
+
+### 最初のプレビュー
+
+Node.js **22.12以上**とnpmを使用します。検証バージョンはSlidev **53.0.0**です。
+
+```sh
+git clone https://github.com/mame7743/slidev-kit.git
+cd slidev-kit
+npm ci
+npm run dev
+```
+
+ターミナルに表示されるURLを開き、`examples/phase1/slides.md` を編集します。Slidevのホットリロードが反映します。日本語フォントはOSのローカルフォント（Hiragino / Yu Gothic / Noto Sans CJK JP）を使います。PDFを作る環境にも日本語フォントを用意してください。
+
+```sh
+npx playwright install chromium   # PDF・ブラウザ検証用。初回のみ
+npm run build                    # 入力検査 → Web用ビルド
+npm run export                   # dist/phase1.pdf
+```
+
+### 自分のデッキを作る
+
+```sh
+cp -R examples/phase1 examples/my-report
+npx slidev examples/my-report/slides.md
+```
+
+[レイアウトカタログ](catalog/README.md) の使用例をコピーしてスライドを置き換えてください。[コピペ用テンプレート](catalog/templates/) と[実行可能な10枚のサンプル](examples/phase1/slides.md) もあります。先頭の設定は残します。
+
+```yaml
+---
+theme: ../../
+themeConfig:
+  variant: corporate
+  organization: 開発チーム
+aspectRatio: 16/9
+canvasWidth: 1280
+layout: cover
+---
+```
+
+`theme: ../../` はデッキからリポジトリルートへの相対パスです。別の場所に移す場合は変更してください。デザインは `themeConfig.variant`、スライド内の配置は `variant` で指定します。
+
+````md
+---
+layout: comparison
+variant: balanced
+density: normal
+---
+
+# 新旧方式の比較
+
+::left::
+
+## 従来
+- 手動設定
+- 個別処理
+
+::right::
+
+## 改善後
+- 自動設定
+- 標準化
+````
+
+対応ID：`cover` / `section` / `content` / `split` / `comparison` / `cards` / `visual` / `chart` / `table` / `roadmap`。表はMarkdown表、グラフはMermaid、画像はMarkdown画像構文を使います。カードは `::first::` / `::second::` / `::third::` の3スロットです。HTML・Vueの記述は不要です。
+
+`density` は `relaxed` / `normal` / `compact`。入力内容を削除・自動縮小しません。はみ出す場合はブラウザコンソールに警告します。情報量を減らすかスライドを分けてください。警告は任意の図の重なりを完全に検出するものではありません。
+
+```sh
+npm run phase1:check -- examples/my-report/slides.md
+npx slidev build examples/my-report/slides.md
+npx slidev export examples/my-report/slides.md --output dist/my-report.pdf
+```
+
+`phase1:check` は今回の10 IDを対象とする検査です。従来の拡張レイアウトを含むデッキには既存CLIの検査を使ってください。
+
+### カタログ・品質検証
+
+```sh
+npm run catalog          # レジストリから説明・テンプレート・サンプルを再生成
+npm run catalog:check    # 生成物との不一致を検出
+npm run verify           # テスト + Vue/TypeScript型検査
+npm run phase1:browser   # Chromiumで10枚・全variant/densityを検査し、PDFも出力
+```
+
+ブラウザ検証は `catalog/previews/*.png` を更新し、PDFとレポートを `dist/phase1-verification/` に出力します。通常のプレビュー・PDF出力にこの検証スクリプトは不要です。
+
+設計・標準APIとの分担は [docs/phase1/phase1-design.md](docs/phase1/phase1-design.md)、実施結果と既知の制約は [docs/phase1/phase1-verification.md](docs/phase1/phase1-verification.md) を参照してください。Talk・40レイアウト・独自Gantt・新規AI支援は後続Phaseです。
+
+## 既存CLI・拡張機能
 
 Slidevデッキを最初から最後まで作るツールキットです。テンプレートからの対話的な作成、検査つきビルド、PDF出力、スライド専用エージェントを1つのCLIにまとめています。
 
@@ -61,6 +158,8 @@ templates/<name>/
 デッキ直下の `ref/` に参考資料（md / txt / csv / pdf / pptx など）を置くと、`slidev-kit agent` が執筆前にテキスト系を読んで従います。詳細は [docs/agent.md](docs/agent.md) を参照してください。
 
 ## 開発
+
+[ドキュメント索引](docs/README.md) / [開発用スクリプト](scripts/README.md) / [開発メモリ](docs/memory/README.md)
 
 ```sh
 npm ci

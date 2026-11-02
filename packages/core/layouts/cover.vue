@@ -1,9 +1,12 @@
 <script setup>
 import CoverLayout from '../interface/CoverLayout.vue'
+import KitSlide from '../components/layouts/KitSlide.vue'
+import { configs } from '@slidev/client'
 defineProps({ frontmatter: Object, title: String, subtitle: String, author: String, date: String })
 </script>
 <template>
-  <CoverLayout
+  <KitSlide v-if="configs.themeConfig.variant === 'corporate'" kind="cover" :frontmatter="frontmatter"><slot /></KitSlide>
+  <CoverLayout v-else
     :title="frontmatter.title"
     :subtitle="subtitle"
     :author="frontmatter.author"

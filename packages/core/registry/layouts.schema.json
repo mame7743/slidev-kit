@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Slidev Kit Layout Registry",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "name", "category", "description", "use_cases", "slots", "variants", "density", "content_guide", "notes", "template", "preview", "markdown"],
+    "properties": {
+      "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+      "name": { "type": "string", "minLength": 1 },
+      "category": { "enum": ["presentation", "logic", "information", "analysis", "planning", "structure"] },
+      "description": { "type": "string", "minLength": 1 },
+      "use_cases": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+      "slots": {
+        "type": "array",
+        "items": {
+          "type": "object", "additionalProperties": false,
+          "required": ["name", "required", "description"],
+          "properties": {
+            "name": { "type": "string", "pattern": "^[a-z]+$" },
+            "required": { "type": "boolean" },
+            "description": { "type": "string", "minLength": 1 }
+          }
+        }
+      },
+      "variants": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["balanced", "left", "right", "dramatic", "phases"] } },
+      "density": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["relaxed", "normal", "compact"] } },
+      "content_guide": { "type": "string", "minLength": 1 },
+      "notes": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+      "template": { "type": "string", "pattern": "^catalog/templates/[a-z-]+\\.md$" },
+      "preview": { "type": "string", "pattern": "^catalog/previews/[a-z-]+\\.png$" },
+      "markdown": { "type": "string", "minLength": 1 }
+    }
+  }
+}

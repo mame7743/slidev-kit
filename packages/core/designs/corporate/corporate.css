@@ -1,0 +1,56 @@
+/* Structure is selected by layout/variant. Decoration uses semantic tokens only. */
+.kit-slide.slidev-layout {
+  width: 100%; height: 100%; box-sizing: border-box;
+  padding: var(--kit-padding); display: flex; flex-direction: column;
+  color: var(--kit-text); background: var(--kit-background);
+  font-family: var(--kit-font); font-size: var(--kit-body); line-height: var(--kit-leading);
+  border-top: 7px solid var(--kit-primary);
+}
+.kit-slide *, .kit-slide *::before, .kit-slide *::after { box-sizing: border-box; }
+.kit-body { flex: 1; min-height: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--kit-space); }
+.kit-region { min-width: 0; overflow-wrap: anywhere; }
+.kit-slide h1 { margin: 0 0 var(--kit-space); color: var(--kit-primary); font-size: var(--kit-title); line-height: 1.3; font-weight: 750; }
+.kit-slide h2 { margin: 0 0 16px; color: var(--kit-primary); font-size: var(--kit-heading); line-height: 1.4; font-weight: 700; }
+.kit-slide h3 { margin: 0 0 12px; font-size: var(--kit-body); font-weight: 700; }
+.kit-slide p { margin: 0 0 16px; }
+.kit-slide ul, .kit-slide ol { margin: 0; padding-left: 1.3em; }
+.kit-slide ul { list-style: disc; }
+.kit-slide ol { list-style: decimal; }
+.kit-slide li { margin: 8px 0; }
+.kit-slide strong { color: var(--kit-accent); font-weight: 750; }
+.kit-slide blockquote { margin: 18px 0 0; padding: 10px 18px; border-left: 4px solid var(--kit-accent); color: var(--kit-muted); background: var(--kit-surface); }
+.kit-slide blockquote p { margin: 0; }
+.kit-slide a { color: var(--kit-accent); }
+.kit-slide code { font-size: .85em; }
+.kit-slide pre { white-space: pre-wrap; }
+.kit-slide table { width: 100%; border-collapse: collapse; font-size: .9em; }
+.kit-slide th, .kit-slide td { padding: 12px 18px; text-align: left; border-bottom: var(--kit-border); }
+.kit-slide th { background: var(--kit-primary); color: var(--kit-background); font-weight: 700; }
+.kit-slide tbody tr:nth-child(even) { background: var(--kit-surface); }
+.kit-slide img { display: block; max-width: 100%; object-fit: contain; }
+.kit-footer { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 10px; border-top: var(--kit-border); color: var(--kit-muted); font-size: 14px; flex-shrink: 0; }
+.kit-columns, .kit-cards { display: grid; gap: var(--kit-space); flex: 1; min-height: 0; align-content: start; }
+.kit-columns { grid-template-columns: 1fr 1fr; }
+.kit-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.kit-panel { padding: var(--kit-space); background: var(--kit-surface); border: var(--kit-border); border-radius: var(--kit-radius); }
+.kit-slide[data-layout='split'] .kit-panel { padding: 0; border: 0; background: transparent; }
+.kit-slide[data-variant='left'] .kit-columns { grid-template-columns: 3fr 2fr; }
+.kit-slide[data-variant='right'] .kit-columns { grid-template-columns: 2fr 3fr; }
+.kit-slide[data-layout='cover'] .kit-body,
+.kit-slide[data-layout='section'] .kit-body { justify-content: center; }
+.kit-slide[data-layout='cover'] h1 { font-size: 58px; max-width: 100%; }
+.kit-slide[data-layout='section'] h1 { font-size: 50px; border-left: 8px solid var(--kit-accent); padding-left: var(--kit-space); }
+.kit-slide[data-variant='dramatic'] { background: var(--kit-primary); color: var(--kit-background); }
+.kit-slide[data-variant='dramatic'] h1, .kit-slide[data-variant='dramatic'] strong { color: var(--kit-background); }
+.kit-slide[data-variant='dramatic'] .kit-footer { color: var(--kit-background); }
+.kit-slide[data-layout='visual'] .kit-intro,
+.kit-slide[data-layout='chart'] .kit-intro { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.kit-slide[data-layout='visual'] .kit-intro > p:has(img) { flex: 1; min-height: 0; display: flex; justify-content: center; }
+.kit-slide[data-layout='visual'] img { max-height: 100%; width: 100%; }
+.kit-slide[data-layout='chart'] .mermaid { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+/* Mermaid's SVG lives in a shadow root. Dimensions/colors are configured in setup/mermaid.ts. */
+.kit-slide[data-layout='chart'] blockquote,
+.kit-slide[data-layout='visual'] blockquote { font-size: .75em; }
+.kit-slide[data-layout='roadmap'] td:first-child { color: var(--kit-accent); font-weight: 750; width: 18%; }
+.kit-slide[data-layout='roadmap'] td { padding-top: 20px; padding-bottom: 20px; }
+.kit-slide[data-density='compact'] th, .kit-slide[data-density='compact'] td { padding: 8px 12px; }
