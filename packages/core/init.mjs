@@ -30,9 +30,27 @@ const { readConfig } = workflow
 const deckRoot = resolve(dirname(fileURLToPath(import.meta.url)))
 const SYSTEM_SCAFFOLD = join(deckRoot, 'templates', 'scaffold')
 const STANDARD_DIRS = ['data', join('public', 'images'), 'ref']
-const DEFAULT_THEME = 'git+https://github.com/mame7743/slidev-kit.git#main'
-const DEFAULT_KIT_DEP = 'github:mame7743/slidev-kit#main'
 const DEFAULT_SLIDEV = '^53.0.0'
+// 配布はnpmレジストリではなく、バージョン付きのGitHub Release asset (.tgz)。
+// 実行中のCLI自身のバージョンから導入URLを組み立てる。
+function cliVersion() {
+  const here = dirname(fileURLToPath(import.meta.url))
+  const candidates = []
+  try { candidates.push(require.resolve('slidev-kit/package.json')) } catch {}
+  // 開発: packages/core -> packages/cli/package.json
+  candidates.push(join(here, '..', 'cli', 'package.json'))
+  // 同梱tarball: node_modules/slidev-core -> slidev-kit/package.json
+  candidates.push(join(here, '..', '..', 'package.json'))
+  for (const file of candidates) {
+    if (!existsSync(file)) continue
+    try { return JSON.parse(readFileSync(file, 'utf8')).version } catch {}
+  }
+  return '0.2.2'
+}
+const CLI_VERSION = cliVersion()
+const DEFAULT_RELEASE = `https://github.com/mame7743/slidev-kit/releases/download/v${CLI_VERSION}/slidev-kit-${CLI_VERSION}.tgz`
+const DEFAULT_THEME = DEFAULT_RELEASE
+const DEFAULT_KIT_DEP = DEFAULT_RELEASE
 const DEFAULT_SCAFFOLD = ['package.json', 'vite.config.ts', '.npmrc', '.gitignore', 'README.md']
 const TEXT_EXTENSIONS = new Set(['md', 'txt', 'json', 'ts', 'js', 'mjs', 'cjs', 'css', 'scss', 'html', 'vue', 'yaml', 'yml'])
 
@@ -63,9 +81,9 @@ const usage = `使い方:
   slidev-kit init my-report               独立したプロジェクト my-report/ を生成
   slidev-kit init --list                  利用可能なテンプレートを一覧表示
   --template=<name|path|github:owner/repo#ref> テンプレートを指定（GitHubはslides.mdをリポジトリ直下に配置）
-  --theme=<gitURL|file:path>        テーマ依存の指定（既定: git URL の main）
+  --theme=<tarballURL|file:path>     テーマ依存の指定（既定: GitHub Release tarball）
   --slidev=<version>                @slidev/cli のバージョン（既定 ^53.0.0）
-  --kit=<spec>                      slidev-kit の依存指定（既定: GitHub main branch）
+  --kit=<spec>                      slidev-kit の依存指定（既定: GitHub Release tarball）
   --define <key>=<value>            任意トークンを指定（繰り返し可）
 トークン: {{name}} {{title}} {{themeDep}} {{slidevVersion}} {{kitDep}} {{date}}（{{title}} は引用済み）
 標準構成: slides.md / ref/ / data/ / public/images/ / package.json ほか（システムが用意）

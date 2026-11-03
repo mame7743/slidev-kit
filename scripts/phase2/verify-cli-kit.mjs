@@ -44,14 +44,14 @@ try {
     import { registry as rootRegistry } from './node_modules/slidev-kit/lib/deck-contract.mjs';
     import { registry as coreRegistry } from './node_modules/slidev-kit/node_modules/slidev-core/lib/deck-contract.mjs';
     assert.deepEqual(rootRegistry, coreRegistry);
-    assert.deepEqual(rootRegistry, ${JSON.stringify(JSON.parse(readFileSync(join(root, 'packages/core/registry/layouts.json'), 'utf8')))});
+    assert.deepEqual(rootRegistry, ${JSON.stringify(JSON.parse(readFileSync(join(root, 'packages/theme/registry/layouts.json'), 'utf8')))});
     console.log('checkout / CLI root / bundled core registries identical');`
   writeFileSync(join(project, 'registry-probe.mjs'), registryProbe)
   const probe = run(process.execPath, ['registry-probe.mjs'], project)
   const cli = join(project, 'node_modules/slidev-kit/bin/cli.mjs')
   const results = []
   for (const [preset, phase, count] of [['corporate', 'phase1', 10], ['editorial', 'phase2', 10], ['corporate-expansion', 'phase2-expansion', 17], ['editorial-expansion', 'phase2-expansion', 17]]) {
-    const source = readFileSync(join(root, `examples/${phase}/slides.md`), 'utf8').replace('theme: ../../', 'theme: slidev-kit').replace('variant: corporate', `variant: ${preset.startsWith('editorial') ? 'editorial' : 'corporate'}`)
+    const source = readFileSync(join(root, `examples/${phase}/slides.md`), 'utf8').replace('theme: ../../packages/theme', 'theme: slidev-kit').replace('variant: corporate', `variant: ${preset.startsWith('editorial') ? 'editorial' : 'corporate'}`)
     writeFileSync(join(project, `${preset}.md`), source)
     const check = run(process.execPath, [cli, 'build', `${preset}.md`, '--check-only'], project)
     assert.match(check.stdout, new RegExp(`${count} slides`))

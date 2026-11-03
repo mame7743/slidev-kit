@@ -5,13 +5,13 @@ import { createInterface } from 'node:readline/promises'
 import { stdin as input, stdout as output } from 'node:process'
 import { createSlideAgent } from './agent.mjs'
 
-const HELP = `slidev-agent — Slidev専用エージェント
+const HELP = `slidev-kit agent — Slidev専用エージェント
 
 使い方:
-  slidev-agent run "進捗報告のスライドを作って" [options]
-  slidev-agent chat [options]
-  slidev-agent tools
-  slidev-agent doctor
+  slidev-kit agent run "進捗報告のスライドを作って" [options]
+  slidev-kit agent chat [options]
+  slidev-kit agent tools
+  slidev-kit agent doctor
 
 Options:
   --cwd=<dir>         作業ディレクトリ（既定: カレント）

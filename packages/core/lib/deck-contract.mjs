@@ -31,9 +31,13 @@ markdown.block.ruler.before('fence', 'slot_marker', (state, startLine, _endLine,
   state.line = startLine + 1
   return true
 }, { alt: ['paragraph', 'reference', 'blockquote', 'list'] })
-const localRegistry = new URL('../registry/layouts.json', import.meta.url)
-const registryPath = existsSync(localRegistry) ? localRegistry
-  : join(dirname(require.resolve('slidev-core/package.json')), 'registry/layouts.json')
+// レジストリは開発時はcore内リンク、テーマ分離後のmonorepoではpackages/themeに実体がある。
+const registryCandidates = [
+  new URL('../registry/layouts.json', import.meta.url),
+  new URL('../../theme/registry/layouts.json', import.meta.url),
+]
+const registryPath = registryCandidates.find((path) => existsSync(path))
+  ?? join(dirname(require.resolve('slidev-core/package.json')), 'registry/layouts.json')
 export const registry = JSON.parse(readFileSync(registryPath, 'utf8'))
 export const parseDeck = parse
 

@@ -9,7 +9,7 @@ describe('Phase 1 public registry', () => {
   it('pins the original ten fixture IDs and validates the public registry', () => {
     expect(phase1Registry.map(l => l.id)).toEqual(['cover', 'section', 'content', 'split', 'comparison', 'cards', 'visual', 'chart', 'table', 'roadmap'])
     expect(validateRegistry(registry)).toBe(registry)
-    for (const layout of registry) expect(existsSync(join(root, `packages/core/layouts/${layout.id}.vue`))).toBe(true)
+    for (const layout of registry) expect(existsSync(join(root, `packages/theme/layouts/${layout.id}.vue`))).toBe(true)
   })
   it('rejects invalid schemas, duplicate IDs, duplicate slots, and inconsistent paths', () => {
     expect(() => validateRegistry([{ id: 'invalid' }])).toThrow()
@@ -29,7 +29,7 @@ describe('Phase 1 public registry', () => {
         for (const density of layout.density)
           expect(await checkDeck(template.replace(`variant: ${layout.variants[0]}`, `variant: ${variant}`).replace('density: normal', `density: ${density}`))).toEqual([])
     }
-    expect(readFileSync(join(root, 'examples/phase1/slides.md'), 'utf8')).toBe(sampleDeck())
+    expect(readFileSync(join(root, 'examples/core-layouts/slides.md'), 'utf8')).toBe(sampleDeck())
     expect(await checkDeck(sampleDeck())).toEqual([])
   })
 })

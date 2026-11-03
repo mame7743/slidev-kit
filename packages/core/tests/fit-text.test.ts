@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest'
-import { findLargestFontSize } from '../lib/layout/fit-text'
+import { findLargestFontSize } from '../../theme/lib/layout/fit-text'
 it('keeps the selected size when content fits', () => {
   expect(findLargestFontSize(18, 32, () => true)).toEqual({ size: 32, overflow: false })
 })

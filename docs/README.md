@@ -16,7 +16,7 @@
 
 - [40候補の状態・追加7IDの仕様と使用法](phase2/layout-expansion-plan.md)：実装済17/次候補9/保留14
 - [17ID検証結果](phase2/expansion-verification.md)：両preset・境界・実CLI・legacy・PDFと制約
-- [17枚の追加例](../examples/phase2-expansion/slides.md)：既存10枚例とは分離
+- [17枚の追加例](../examples/all-layouts/slides.md)：既存10枚例とは分離
 
 ## 既存の拡張機能
 

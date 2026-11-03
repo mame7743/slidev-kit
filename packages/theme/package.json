@@ -1,0 +1,59 @@
+{
+  "name": "slidev-theme-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Slidev theme assets and Vite integrations for slidev-kit",
+  "files": [
+    "public",
+    "charts",
+    "registry",
+    "layouts",
+    "interface",
+    "designs",
+    "components",
+    "composables",
+    "setup",
+    "lib",
+    "scripts",
+    "vite.config.ts"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./vite": "./vite.config.ts",
+    "./layouts/*": "./layouts/*",
+    "./components/*": "./components/*",
+    "./composables/*": "./composables/*",
+    "./designs/*": "./designs/*",
+    "./interface/*": "./interface/*",
+    "./registry/*": "./registry/*"
+  },
+  "dependencies": {
+    "@vue/compiler-dom": "^3.5.0",
+    "json5": "^2.2.3"
+  },
+  "peerDependencies": {
+    "@slidev/cli": ">=53.0.0",
+    "vue": "^3.5.0"
+  },
+  "slidev": {
+    "defaults": {
+      "aspectRatio": "16/9",
+      "canvasWidth": 1280,
+      "colorSchema": "light",
+      "themeConfig": {
+        "variant": "default",
+        "organization": "",
+        "department": "",
+        "classification": ""
+      },
+      "fonts": {
+        "sans": "Arial",
+        "local": "Arial"
+      },
+      "drawings": {
+        "persist": false
+      }
+    }
+  }
+}

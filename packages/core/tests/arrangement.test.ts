@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { resolveArrangement, resolveColumns, resolveRatio } from '../lib/layout/arrangement'
+import { resolveArrangement, resolveColumns, resolveRatio } from '../../theme/lib/layout/arrangement'
 describe('content arrangement inputs', () => {
   it('falls back for unknown or inherited names', () => {
     for (const value of ['constructor', '__proto__', 'unknown', null, 42])

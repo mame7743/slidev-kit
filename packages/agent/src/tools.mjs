@@ -13,21 +13,20 @@ const text = value => ({ content: [{ type: 'text', text: value }], details: {} }
 const json = value => text(JSON.stringify(value, null, 2))
 
 function kitFile(file) {
-  try {
-    return join(dirname(require.resolve('slidev-kit/package.json')), file)
-  } catch {
-    const base = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'core')
-    const sourceFile = file === 'scripts/check.mjs' ? 'check.mjs' : file
-    const candidate = join(base, sourceFile)
-    if (existsSync(candidate)) return candidate
-    const cliFile = join(dirname(base), 'cli', file)
-    if (existsSync(cliFile)) return cliFile
-    throw new Error(`slidev-kit の ${file} が見つかりません。`)
-  }
+  const workspace = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
+  const candidates = []
+  // 同梱tarball（CLI package）を優先し、開発リポジトリでは theme / cli / core へフォールバックする。
+  try { candidates.push(join(dirname(require.resolve('slidev-kit/package.json')), file)) } catch {}
+  candidates.push(join(workspace, 'theme', file))
+  candidates.push(join(workspace, 'cli', file))
+  candidates.push(join(workspace, 'core', file === 'scripts/check.mjs' ? 'check.mjs' : file))
+  const found = candidates.find((candidate) => existsSync(candidate))
+  if (!found) throw new Error(`slidev-kit の ${file} が見つかりません。`)
+  return found
 }
 
 function reportCli() {
-  // 同梱tarball / リポジトリ直インストール（npx github:）の両対応。
+  // 同梱tarball / 開発リポジトリの両対応。
   try {
     const pkgPath = require.resolve('slidev-runner/package.json')
     return join(dirname(pkgPath), 'src', 'cli.mjs')
@@ -54,12 +53,13 @@ function packageFile(name, file) {
   try {
     candidates.push(join(dirname(require.resolve(`${name}/package.json`)), file))
   } catch {
-    // リポジトリ直インストール（npx github:）では隣のworkspaceを相対参照する。
+    // 開発リポジトリでは隣のworkspaceを相対参照する。
     const sibling = join(dirname(fileURLToPath(import.meta.url)), '..', '..', name, file)
     if (existsSync(sibling)) candidates.push(sibling)
   }
-  // テーマに同梱されている場合（slidev-template/node_modules/slidev-charts）を解決する。
   if (name === 'slidev-charts') {
+    const sourceThemeCharts = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'theme', 'charts')
+    if (existsSync(sourceThemeCharts)) candidates.push(join(sourceThemeCharts, file))
     try {
       const themePkg = require.resolve('slidev-template/package.json')
       const bundled = join(dirname(themePkg), 'node_modules', 'slidev-charts')

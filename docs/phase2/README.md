@@ -19,7 +19,7 @@
 
 ## 利用
 
-`examples/phase2/slides.md` を参照。本文を変えず、headmatterの `themeConfig.variant` を `editorial` に設定する。スライド直下の `variant` は構造の選択（balanced/left/right等）でありデザイン名ではない。
+`examples/editorial-variant/slides.md` を参照。本文を変えず、headmatterの `themeConfig.variant` を `editorial` に設定する。スライド直下の `variant` は構造の選択（balanced/left/right等）でありデザイン名ではない。
 
 - `npm run phase2:check`: 生成サンプルとデッキ契約を検査
 - `npm run phase2:browser`: 両presetの実ブラウザ・PDF検証（既存previewは上書きしない）

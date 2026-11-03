@@ -1,12 +1,15 @@
 # slidev-kit
 
-Slidevデッキの作成・プレビュー・検査・ビルド・PDF出力と、スライド専用エージェントを1つのCLIにまとめたツールキットです。当面の配布先は GitHub リポジトリです。
+Slidevデッキの作成・プレビュー・検査・ビルド・PDF出力と、スライド専用エージェントを1つのCLIにまとめたツールキットです。配布はバージョンごとの GitHub Release asset（`.tgz`）です。
 
 ```sh
-# GitHub から CLI を実行してデッキを作成
-npx github:mame7743/slidev-kit#main init my-report
+# バージョン固定の Release tarball をインストールしてデッキを作成
+npm install https://github.com/mame7743/slidev-kit/releases/download/v0.2.2/slidev-kit-0.2.2.tgz
+npx slidev-kit init my-report
 cd my-report && npm install && npm run dev
 ```
+
+リポジトリルートからの直接導入（`npx github:mame7743/slidev-kit`）はサポート対象外です。
 
 ```sh
 slidev-kit slides.md                  # プレビュー（既定動作）
@@ -169,4 +172,4 @@ title: 資料タイトル
 
 ## 内部パッケージ
 
-公開CLIは `packages/cli/`、共有機能とSlidev資産は `packages/core/`、実行ワークフローは `packages/runner/` に分離しています。`core`・`runner`・`agent`・`charts` は内部実装として `prepack` で配布物へ同梱するため、利用者は `slidev-kit` だけをインストールします。
+公開CLIは `packages/cli/`、Slidev資産（テーマ・図表）は `packages/theme/`、Node.jsコアと実行ワークフローは `packages/core/` と `packages/runner/` に分離しています。`theme`・`core`・`runner`・`agent`・`charts` は内部実装として `prepack` で配布物へ同梱するため、利用者は `slidev-kit` だけをインストールします。

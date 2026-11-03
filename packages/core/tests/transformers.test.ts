@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import setup from '../setup/transformers'
+import setup from '../../theme/setup/transformers'
 
 const transformer = async () => {
   const extras = await setup()

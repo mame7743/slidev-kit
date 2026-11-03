@@ -8,6 +8,7 @@ import { templateCharts } from './scripts/vite-plugin-charts.mjs'
 const packageRoot = dirname(fileURLToPath(import.meta.url))
 function chartsRoot() {
   const candidates = [
+    join(packageRoot, 'charts'),
     resolve(process.cwd(), 'node_modules', 'slidev-kit', 'node_modules', 'slidev-charts'),
     join(packageRoot, 'node_modules', 'slidev-charts'),
     resolve(packageRoot, '..', 'charts'),
@@ -46,7 +47,7 @@ export default defineConfig(async () => {
     resolve: {
       alias: {
         // Also resolve self-references when this repository is used as a local theme.
-        // packages/core has its own package boundary, so Node self-resolution cannot find the root package.
+        // The theme has its own package boundary, so Node self-resolution cannot find the consumer package.
         'slidev-kit': packageRoot,
         // Vue compiles Markdown images into imports; theme public assets are not in userRoot/public.
         '/slidev-kit': join(packageRoot, 'public', 'slidev-kit'),

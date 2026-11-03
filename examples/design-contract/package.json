@@ -11,7 +11,7 @@
   "devDependencies": {
     "@slidev/cli": "^53.0.0",
     "playwright-chromium": "^1.61.0",
-    "slidev-kit": "github:mame7743/slidev-kit#main"
+    "slidev-kit": "https://github.com/mame7743/slidev-kit/releases/download/v0.2.2/slidev-kit-0.2.2.tgz"
   },
   "slidev": {
     "addons": ["slidev-kit"],

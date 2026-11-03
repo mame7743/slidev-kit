@@ -3,15 +3,22 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
-// パッケージ内から実行されるため、テーマの場所は自身からの相対で解決する。
+// パッケージ内から実行されるため、検査コードとテーマの場所は自身からの相対で解決する。
+// 開発リポジトリ（coreのシンボリックリンク）、テーマ分離後のmonorepo、旧ルート配置のいずれでも動かす。
 const scriptDir = dirname(fileURLToPath(import.meta.url))
-const packageRoot = existsSync(join(scriptDir, 'layouts')) ? scriptDir : resolve(scriptDir, '..')
+const scriptParent = resolve(scriptDir, '..')
+const findRoot = (marker, candidates) => candidates.find((dir) => existsSync(join(dir, marker)))
+const coreRoot = findRoot(join('lib', 'deck-contract.mjs'), [scriptDir, scriptParent]) ?? scriptDir
+const themeRoot = findRoot('layouts', [scriptDir, join(scriptParent, 'theme'), scriptParent]) ?? scriptParent
+const libPath = (file) =>
+  [join(coreRoot, 'lib', file), join(themeRoot, 'lib', file)].find((path) => existsSync(path)) ??
+  join(coreRoot, 'lib', file)
 const userRoot = process.cwd()
-const { parseDeck, resolveDeckConfig, checkKitSlides, slideTokens, markdownImages } = await import(pathToFileURL(join(packageRoot, 'lib/deck-contract.mjs')).href)
-const { isKitPreset } = await import(pathToFileURL(join(packageRoot, 'lib/kit-presets.mjs')).href)
+const { parseDeck, resolveDeckConfig, checkKitSlides, slideTokens, markdownImages } = await import(pathToFileURL(join(coreRoot, 'lib/deck-contract.mjs')).href)
+const { isKitPreset } = await import(pathToFileURL(libPath('kit-presets.mjs')).href)
 
 const layouts = new Set(
-  readdirSync(join(packageRoot, 'layouts'))
+  readdirSync(join(themeRoot, 'layouts'))
     .filter((file) => file.endsWith('.vue'))
     .map((file) => file.slice(0, -4)),
 )
@@ -21,9 +28,9 @@ const variantDirs = (dir) =>
         .filter((entry) => entry.isDirectory() && entry.name !== 'standard')
         .map((entry) => entry.name)
     : []
-const variants = new Set([...variantDirs(join(packageRoot, 'designs')), ...variantDirs(join(userRoot, 'designs'))])
+const variants = new Set([...variantDirs(join(themeRoot, 'designs')), ...variantDirs(join(userRoot, 'designs'))])
 const arrangementNames = new Set(
-  Object.keys(JSON.parse(readFileSync(join(packageRoot, 'lib', 'layout', 'arrangements.json'), 'utf8'))),
+  Object.keys(JSON.parse(readFileSync(libPath(join('layout', 'arrangements.json')), 'utf8'))),
 )
 
 const slotRules = {
@@ -128,7 +135,7 @@ function checkAsset(file, line, label, raw, checkRelative = false) {
   const candidates = []
   if (path.startsWith('/')) candidates.push(join(userRoot, 'public', path.slice(1)))
   // Only actual distributed theme assets are accepted; no namespace bypass.
-  if (path.startsWith('/slidev-kit/') && !path.split('/').includes('..')) candidates.push(join(packageRoot, 'public', path.slice(1)))
+  if (path.startsWith('/slidev-kit/') && !path.split('/').includes('..')) candidates.push(join(themeRoot, 'public', path.slice(1)))
   if (path.startsWith('data/')) candidates.push(join(userRoot, path), join(userRoot, 'public', path))
   if (path.startsWith('/data/')) candidates.push(join(userRoot, path.slice(1)))
   if (path.startsWith('public/')) candidates.push(join(userRoot, path))

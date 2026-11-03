@@ -6,12 +6,19 @@ import { chromiumPath, deckPath, defaultDeck, slidevCli, slidevArgs, themeCheckP
 
 const root = process.cwd()
 const [command, ...args] = process.argv.slice(2)
-const usage = `使い方（通常は deck から呼び出されます。プロジェクトのルートで実行）:
+const usage = `使い方（通常は slidev-kit から呼び出されます。プロジェクトのルートで実行）:
+  slidev-kit [report.md] [--open] [--port 3030]  プレビュー（既定動作）
+  slidev-kit build [report.md] [--check-only]
+  slidev-kit pdf [report.md] [--output file.pdf]
+  slidev-kit doctor [--pdf]
+
+内部実装コマンド（slidev-kit が内部で呼び出します）:
   slidev-runner dev [report.md] [--open] [--port 3030]
   slidev-runner build [report.md]
   slidev-runner export [report.md]
   slidev-runner check report.md
   slidev-runner doctor [--pdf]
+
 省略時のデッキは slidev-kit.config.json の defaultDeck（既定 slides.md）。`
 
 async function run(script, argv) {

@@ -1,6 +1,6 @@
 # Phase 1 執筆ガイド
 
-[READMEのセットアップ](../../README.md#phase-1markdownだけで書く) → [カタログ](../../catalog/README.md) → [10枚のサンプル](../../examples/phase1/slides.md) の順に利用してください。AI設定は不要です。
+[READMEのセットアップ](../../README.md#phase-1markdownだけで書く) → [カタログ](../../catalog/README.md) → [10枚のサンプル](../../examples/core-layouts/slides.md) の順に利用してください。AI設定は不要です。
 
 ## 基本設定
 
@@ -8,7 +8,7 @@
 
 ```yaml
 ---
-theme: ../../
+theme: ../../packages/theme
 themeConfig:
   variant: corporate
   organization: 開発チーム

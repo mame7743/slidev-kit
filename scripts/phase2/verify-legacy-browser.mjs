@@ -21,11 +21,11 @@ try {
     mkdirSync(cwd, { recursive: true })
     // Vue's SFC type resolver uses Node package resolution, not only Vite aliases.
     mkdirSync(join(cwd, 'node_modules'), { recursive: true })
-    if (!existsSync(join(cwd, 'node_modules/slidev-kit'))) symlinkSync(root, join(cwd, 'node_modules/slidev-kit'), 'dir')
+    if (!existsSync(join(cwd, 'node_modules/slidev-kit'))) symlinkSync(join(root, 'packages/theme'), join(cwd, 'node_modules/slidev-kit'), 'dir')
     if (variant === 'acme') cpSync(join(root, 'examples/design-contract/designs'), join(cwd, 'designs'), { recursive: true })
     writeFileSync(join(cwd, 'package.json'), JSON.stringify({ private: true, type: 'module' }))
     writeFileSync(join(cwd, 'slides.md'), `---
-theme: ${root}
+theme: ${join(root, 'packages/theme')}
 themeConfig:
   variant: ${variant}
   organization: Legacy Example

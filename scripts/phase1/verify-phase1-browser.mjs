@@ -18,7 +18,7 @@ const outputDir = join(root, 'dist/phase1-verification')
 mkdirSync(outputDir, { recursive: true })
 mkdirSync(join(root, 'catalog/previews'), { recursive: true })
 let serverLog = ''
-const server = spawn(process.execPath, [cli, 'examples/phase1/slides.md', '--port', String(port)], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'] })
+const server = spawn(process.execPath, [cli, 'examples/core-layouts/slides.md', '--port', String(port)], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'] })
 server.stdout.on('data', data => { serverLog += data })
 server.stderr.on('data', data => { serverLog += data })
 let browser
@@ -123,7 +123,7 @@ try {
   await browser.close(); browser = undefined
   // Export with Slidev's actual PDF path, then parse the result (not just a successful exit code).
   const pdfPath = join(outputDir, 'catalog.pdf')
-  await run(['export', 'examples/phase1/slides.md', '--output', pdfPath, '--wait', '1000', '--timeout', '120000'])
+  await run(['export', 'examples/core-layouts/slides.md', '--output', pdfPath, '--wait', '1000', '--timeout', '120000'])
   const pdf = await PDFDocument.load(readFileSync(pdfPath))
   assert.equal(pdf.getPageCount(), registry.length, 'PDF page count')
   for (const [index, page] of pdf.getPages().entries()) {

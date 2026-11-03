@@ -19,7 +19,7 @@ my-deck/
 
 スライド直下の `variant` は配置の指定であり、デザイン名ではありません。`cover/content/comparison/summary/end` はdefault/mono/dark/custom指定時に旧interface実装を維持します。その他12IDはKitSlide専用であり、両preset以外ではCorporateへフォールバックします。custom DesignでKitSlide DOM自体を差し替える契約はありません。
 
-公開レイアウトのwrapperは `packages/core/layouts/*.vue`、共通描画は `packages/core/components/kit/KitSlide.vue` と `ContentLayout.vue` にあります。registry・catalog対象外の旧wrapperは `packages/core/layouts/extras/` に分離しています。extrasはSlidevのlayouts再帰走査によるbasename登録で手書き利用でき、既存テストでも使用しますが、catalogサンプルとpreviewは生成しません。公開状態と実装種別の判定は [自動生成のレイアウト判定表](layout-inventory.md) を唯一の正とします。
+公開レイアウトのwrapperは `packages/theme/layouts/*.vue`、共通描画は `packages/theme/components/kit/KitSlide.vue` と `ContentLayout.vue` にあります。registry・catalog対象外の旧wrapperは `packages/theme/layouts/extras/` に分離しています。extrasはSlidevのlayouts再帰走査によるbasename登録で手書き利用でき、既存テストでも使用しますが、catalogサンプルとpreviewは生成しません。公開状態と実装種別の判定は [自動生成のレイアウト判定表](layout-inventory.md) を唯一の正とします。
 
 詳細は [Phase2利用ガイド](phase2/README.md) を参照してください。
 

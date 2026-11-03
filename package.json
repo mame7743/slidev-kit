@@ -1,34 +1,26 @@
 {
-  "name": "slidev-kit",
+  "name": "slidev-kit-workspace",
   "version": "0.2.2",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
   },
-  "description": "SlideKit — a toolkit for creating Slidev decks end to end: interactive init, templates, build, PDF, validation, and a slide agent",
+  "description": "Slidev Kit development workspace. The distributable CLI is packages/cli (slidev-kit); theme assets live only in packages/theme.",
   "license": "MIT",
-  "bin": {
-    "slidev-kit": "packages/cli/bin/cli.mjs"
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    "./packages/agent/src/tools.mjs": "./packages/agent/src/tools.mjs",
-    "./check": "./packages/core/check.mjs",
-    "./components/*": "./packages/core/components/*",
-    "./composables/*": "./packages/core/composables/*",
-    "./designs/*": "./packages/core/designs/*",
-    "./interface/*": "./packages/core/interface/*"
-  },
+  "workspaces": [
+    "packages/*",
+    "packages/theme/charts"
+  ],
   "dependencies": {
     "@earendil-works/pi-agent-core": "1.4.0",
     "@earendil-works/pi-ai": "1.4.0",
     "@modelcontextprotocol/sdk": "^1.32.2",
-    "slidev-agent": "file:packages/agent",
-    "slidev-charts": "file:packages/charts",
-    "slidev-core": "file:packages/core",
-    "slidev-mcp": "file:packages/mcp",
-    "slidev-runner": "file:packages/runner",
+    "slidev-agent": "0.1.0",
+    "slidev-charts": "0.1.0",
+    "slidev-core": "0.1.0",
+    "slidev-mcp": "0.1.0",
+    "slidev-runner": "0.1.0",
     "yaml": "^2.8.0"
   },
   "peerDependencies": {
@@ -54,10 +46,10 @@
     "typecheck": "vue-tsc --noEmit",
     "verify": "npm test && npm run typecheck",
     "e2e": "node scripts/e2e.mjs",
-    "postinstall": "node scripts/sync-theme.mjs",
-    "dev": "slidev examples/phase1/slides.md",
-    "build": "npm run phase1:check && slidev build examples/phase1/slides.md",
-    "export": "npm run phase1:check && slidev export examples/phase1/slides.md --output dist/phase1.pdf",
+    "dev": "slidev examples/quickstart/slides.md",
+    "build": "npm run phase1:check -- examples/quickstart/slides.md && slidev build examples/quickstart/slides.md",
+    "export": "npm run phase1:check -- examples/quickstart/slides.md && slidev export examples/quickstart/slides.md --output dist/quickstart.pdf",
+    "examples:pdf": "node scripts/export-example-pdfs.mjs",
     "catalog": "node scripts/phase1/generate-catalog.mjs",
     "catalog:check": "node scripts/phase1/generate-catalog.mjs --check",
     "inventory": "node scripts/inventory/generate-inventory.mjs",
@@ -68,25 +60,5 @@
     "phase2:expansion:browser": "node scripts/phase2/verify-phase2-browser.mjs --expansion --corporate && node scripts/phase2/verify-phase2-browser.mjs --expansion",
     "phase2:check": "node scripts/phase2/check-phase2.mjs",
     "phase2:browser": "node scripts/phase2/verify-phase2-browser.mjs --corporate && node scripts/phase2/verify-phase2-browser.mjs"
-  },
-  "slidev": {
-    "defaults": {
-      "aspectRatio": "16/9",
-      "canvasWidth": 1280,
-      "colorSchema": "light",
-      "themeConfig": {
-        "variant": "default",
-        "organization": "",
-        "department": "",
-        "classification": ""
-      },
-      "fonts": {
-        "sans": "Arial",
-        "local": "Arial"
-      },
-      "drawings": {
-        "persist": false
-      }
-    }
   }
 }

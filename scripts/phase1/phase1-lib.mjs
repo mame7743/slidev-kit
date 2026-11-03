@@ -5,7 +5,7 @@ import { registry, checkDeck } from '../../packages/core/lib/deck-contract.mjs'
 export { registry, checkDeck }
 
 export const root = fileURLToPath(new URL('../../', import.meta.url))
-const schema = JSON.parse(readFileSync(new URL('../../packages/core/registry/layouts.schema.json', import.meta.url), 'utf8'))
+const schema = JSON.parse(readFileSync(new URL('../../packages/theme/registry/layouts.schema.json', import.meta.url), 'utf8'))
 const validate = new Ajv({ allErrors: true }).compile(schema)
 export function validateRegistry(value) {
   if (!validate(value)) throw new Error(JSON.stringify(validate.errors))
@@ -19,7 +19,7 @@ export function validateRegistry(value) {
 }
 validateRegistry(registry)
 
-export const headmatter = 'theme: ../../\nthemeConfig:\n  variant: corporate\n  organization: Slidev Kit\naspectRatio: 16/9\ncanvasWidth: 1280\ncolorSchema: light\nfonts:\n  sans: Arial\n  local: Arial\n';
+export const headmatter = 'theme: ../../packages/theme\nthemeConfig:\n  variant: corporate\n  organization: Slidev Kit\naspectRatio: 16/9\ncanvasWidth: 1280\ncolorSchema: light\nfonts:\n  sans: Arial\n  local: Arial\n';
 export function slideTemplate(layout, head = '') {
   return `---\n${head}layout: ${layout.id}\nvariant: ${layout.variants[0]}\ndensity: normal\n---\n\n${layout.markdown}\n`
 }

@@ -36,12 +36,12 @@ const usage = `slidev-kit — Slidevデッキの作成・プレビュー・検�
 `
 
 function packageCli(name) {
-  // 同梱tarball（node_modules解決）とリポジトリ直インストール（npx github:）の両方で動くようにする。
+  // 同梱tarball（node_modules解決）と開発リポジトリの両方で動くようにする。
   try {
     const pkgPath = require.resolve(`${name}/package.json`)
     return join(dirname(pkgPath), 'src', 'cli.mjs')
   } catch {
-    const workspaceName = { 'slidev-runner': 'runner', 'slidev-agent': 'agent', 'slidev-charts': 'charts', 'slidev-mcp': 'mcp' }[name] ?? name
+    const workspaceName = { 'slidev-runner': 'runner', 'slidev-agent': 'agent', 'slidev-mcp': 'mcp' }[name] ?? name
     return join(cliDir, '..', '..', workspaceName, 'src', 'cli.mjs')
   }
 }

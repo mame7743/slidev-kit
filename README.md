@@ -2,7 +2,7 @@
 
 **Write content. Let design happen.**
 
-## Phase 1：Markdownだけで書く
+## Markdownからスライドを作る
 
 公開17レイアウトとCorporate / Editorialデザインを、Slidev標準のMarkdown・名前付きスロット・Mermaidで利用できます。**AIの設定・APIキー・独自CLIは不要**です。既存のCLI・エージェント機能は後述のとおり引き続き利用できます。
 
@@ -17,26 +17,26 @@ npm ci
 npm run dev
 ```
 
-ターミナルに表示されるURLを開き、`examples/phase1/slides.md` を編集します。Slidevのホットリロードが反映します。日本語フォントはOSのローカルフォント（Hiragino / Yu Gothic / Noto Sans CJK JP）を使います。PDFを作る環境にも日本語フォントを用意してください。
+ターミナルに表示されるURLを開き、[`examples/quickstart/slides.md`](examples/quickstart/slides.md) を編集します。Slidevのホットリロードが反映します。日本語フォントはOSのローカルフォント（Hiragino / Yu Gothic / Noto Sans CJK JP）を使います。PDFを作る環境にも日本語フォントを用意してください。
 
 ```sh
 npx playwright install chromium   # PDF・ブラウザ検証用。初回のみ
 npm run build                    # 入力検査 → Web用ビルド
-npm run export                   # dist/phase1.pdf
+npm run export                   # dist/quickstart.pdf
 ```
 
 ### 自分のデッキを作る
 
 ```sh
-cp -R examples/phase1 examples/my-report
+cp -R examples/quickstart examples/my-report
 npx slidev examples/my-report/slides.md
 ```
 
-[レイアウトカタログ](catalog/README.md) の使用例をコピーしてスライドを置き換えてください。[コピペ用テンプレート](catalog/templates/) と[実行可能な10枚のサンプル](examples/phase1/slides.md) もあります。先頭の設定は残します。
+[`examples/quickstart/`](examples/quickstart/) を出発点にし、[レイアウトカタログ](catalog/README.md)から必要なスライド例を選んで追加してください。カタログは1枚単位のレイアウト選びとコピー、examplesはデッキ全体や構成例です。先頭の設定は残します。
 
 ```yaml
 ---
-theme: ../../
+theme: ../../packages/theme
 themeConfig:
   variant: corporate
   organization: 開発チーム
@@ -46,7 +46,7 @@ layout: cover
 ---
 ```
 
-`theme: ../../` はデッキからリポジトリルートへの相対パスです。別の場所に移す場合は変更してください。デザインは `themeConfig.variant`、スライド内の配置は `variant` で指定します。
+`theme: ../../packages/theme` はデッキからテーマ実体 `packages/theme/` への相対パスです。別の場所に移す場合は変更してください。デザインは `themeConfig.variant`、スライド内の配置は `variant` で指定します。
 
 ````md
 ---
@@ -95,25 +95,25 @@ npm run phase1:browser   # Chromiumで10枚・全variant/densityを検査し、P
 
 設計・標準APIとの分担は [docs/phase1/phase1-design.md](docs/phase1/phase1-design.md)、実施結果と既知の制約は [docs/phase1/phase1-verification.md](docs/phase1/phase1-verification.md) を参照してください。Talk・40レイアウト・独自Gantt・新規AI支援は後続Phaseです。
 
-## Phase 2 第2段階：公開17レイアウト
+## 追加レイアウトを使う
 
 既存10IDの後へ `agenda / summary / end / quote / metrics / process / code` を追加しました。Corporate / Editorialで同じMarkdown・slotを使えます。既存10枚サンプルとpreviewは維持しています。
 
 kit preset（`themeConfig.variant: corporate | editorial`）は本文Markdownだけを描画するため、frontmatterの `title` / `subtitle` / `note` / `takeaway` は無視され、console端に警告が出ます（旧テーマでは従来どおりfrontmatterを描画）。新しい7IDの本文はH1から書いてください。
 
-[7IDの使用法・40候補の実装状態](docs/phase2/layout-expansion-plan.md) / [17枚の追加例](examples/phase2-expansion/slides.md) / [検証結果と制約](docs/phase2/expansion-verification.md)
+[7IDの使用法・40候補の実装状態](docs/phase2/layout-expansion-plan.md) / [17枚の検証用fixture](examples/all-layouts/slides.md) / [検証結果と制約](docs/phase2/expansion-verification.md)
 
 ```bash
 npm run phase2:expansion:check
 npm run phase2:expansion:browser
 ```
 
-## Phase 2 第1段階：本文を変えずにEditorialへ
+## デザインをEditorialへ切り替える
 
 10ID共通の構造・密度を保ったまま、`themeConfig.variant: editorial` で白地・墨色・朱色のEditorialに切り替えられます。Corporateは従来の見た目を維持します。スライド直下の `variant` は引き続き配置指定です。
 
 ```sh
-npx slidev examples/phase2/slides.md
+npx slidev examples/editorial-variant/slides.md
 npm run phase2:check     # 同じレジストリから生成した10枚を検査
 npm run phase2:browser   # 両presetのDOM/全配置/密度/図表/PDFを検査
 ```
@@ -136,16 +136,24 @@ Slidevデッキを最初から最後まで作るツールキットです。テ�
 
 ## インストール
 
-当面は GitHub リポジトリを配布元として使います。タグまたはブランチを指定してください。
+配布は npm レジストリではなく、バージョンごとの **GitHub Release asset（`.tgz`）** です。下記のバージョン固定 URL から導入してください（`vX.Y.Z` は利用するリリースに合わせます）。
 
 ```sh
-npx github:mame7743/slidev-kit#main init my-report
+npm install https://github.com/mame7743/slidev-kit/releases/download/v0.2.2/slidev-kit-0.2.2.tgz
+```
+
+`slidev-kit` だけをインストールすれば、テーマ・CLI・エージェント・MCP と図表生成が同梱されます。リポジトリルートからの直接導入（`npx github:mame7743/slidev-kit`）はサポート対象外です。
+
+新しいデッキは `init` で作成します。
+
+```sh
+npx slidev-kit init my-report
 cd my-report
 npm install
 npm run dev
 ```
 
-デッキ作成後は生成された `package.json` の依存に従って `npm install` します。
+デッキ作成後は生成された `package.json` の依存（既定は同じ Release tarball URL）に従って `npm install` します。
 
 ## 使い方
 
@@ -185,18 +193,21 @@ templates/<name>/
 ## ディレクトリ構成
 
 ```text
-packages/core/layouts/*.vue          # registry登録済みの公開17レイアウト
-packages/core/layouts/extras/        # registry・catalog対象外（手書き利用・テストは可能）
-packages/core/components/kit/        # KitSlideと共通コンテンツ描画
-packages/core/components/templates/  # 旧レイアウト用テンプレート
-packages/core/components/visuals/    # 図表・画像コンポーネント
-packages/core/registry/              # 公開レイアウト定義
-catalog/                             # 公開サンプルとブラウザpreview
-examples/                            # 用途別の実行例（詳細はexamples/README.md）
-docs/layout-inventory.md             # 自動生成される公開状態の唯一の判定表
+packages/theme/layouts/*.vue          # registry登録済みの公開17レイアウト
+packages/theme/layouts/extras/        # registry・catalog対象外（手書き利用・テストは可能）
+packages/theme/components/kit/        # KitSlideと共通コンテンツ描画
+packages/theme/components/templates/  # 旧レイアウト用テンプレート
+packages/theme/components/visuals/    # 図表・画像コンポーネント
+packages/theme/registry/              # 公開レイアウト定義
+packages/theme/charts/                # 図表生成（slidev-charts）
+packages/core/                        # init・検査・deck操作などNode.jsコア
+packages/cli/                         # 配布パッケージ slidev-kit
+catalog/                              # 公開サンプルとブラウザpreview
+examples/                             # 用途別の実行例（詳細はexamples/README.md）
+docs/layout-inventory.md              # 自動生成される公開状態の唯一の判定表
 ```
 
-ルート直下の `components`、`designs`、`interface`、`layouts`、`setup` などのsymlinkは、実装を `packages/core/` に集約したまま、Slidevテーマとしてルートから解決される資産パスと配布時のパッケージ構成を満たすための入口です。実体の重複ではないため、フォルダ整理時にも削除せず維持します。
+テーマ資産は `packages/theme/` が唯一の実体です。ルートにテーマ資産のsymlinkやコピーは置かず、ルート `package.json`（`slidev-kit-workspace`）は npm workspaces を設定した開発専用のprivateパッケージです。配布物は `packages/cli/` の `slidev-kit` だけです。
 
 ## 開発
 
@@ -209,10 +220,10 @@ npm run e2e     # 隔離環境で init → install → build
 ```
 
 - `packages/cli/` 公開パッケージ `slidev-kit`（CLI・配布）
-- `packages/core/` テンプレート・検査・Slidev資産（内部）
+- `packages/theme/` Slidev表示資産と図表生成の唯一の実体（内部）
+- `packages/core/` init・検査・deck操作などNode.jsコア（内部）
 - `packages/runner/` Slidev実行ワークフロー（内部）
 - `packages/agent/` スライド専用エージェント（内部）
-- `packages/charts/` 図表生成（内部）
 
 ## ライセンス
 

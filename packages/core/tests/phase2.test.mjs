@@ -6,7 +6,7 @@ import { parse, compileScript } from '@vue/compiler-sfc'
 import ts from 'typescript'
 import { createSSRApp, h, ref, reactive, nextTick } from 'vue'
 import { renderToString } from '@vue/server-renderer'
-import { kitPresets, isKitPreset, normalizeKitPreset } from '../lib/kit-presets.mjs'
+import { kitPresets, isKitPreset, normalizeKitPreset } from '../../theme/lib/kit-presets.mjs'
 import { registry, root, sampleDeck, checkDeck } from '../../../scripts/phase1/phase1-lib.mjs'
 
 const require = createRequire(import.meta.url)
@@ -30,7 +30,7 @@ function loadComponent(file) {
   new Function('require', 'module', 'exports', code)(localRequire, module, module.exports)
   return module.exports.default
 }
-const KitSlide = loadComponent(join(root, 'packages/core/components/kit/KitSlide.vue'))
+const KitSlide = loadComponent(join(root, 'packages/theme/components/kit/KitSlide.vue'))
 const render = (component, props, slots) => renderToString(createSSRApp({ render: () => h(component, props, slots) }))
 
 describe('Phase2 preset contract', () => {
@@ -60,7 +60,7 @@ describe('Phase2 preset contract', () => {
   })
   it('keeps legacy branches for the overlapping IDs and Corporate fallback for other IDs', async () => {
     for (const id of ['cover', 'content', 'comparison', 'summary', 'end']) {
-      const component = loadComponent(join(root, `packages/core/layouts/${id}.vue`))
+      const component = loadComponent(join(root, `packages/theme/layouts/${id}.vue`))
       for (const preset of [...kitPresets, 'default', 'mono', 'dark', 'custom']) {
         themeConfig.variant = preset
         const html = await render(component, { frontmatter: { title: 'Legacy' } }, { default: () => 'Body' })
@@ -70,7 +70,7 @@ describe('Phase2 preset contract', () => {
     }
     themeConfig.variant = 'custom'
     for (const layout of registry.filter(l => !['cover', 'content', 'comparison', 'summary', 'end'].includes(l.id))) {
-      const html = await render(loadComponent(join(root, `packages/core/layouts/${layout.id}.vue`)), { frontmatter: {} })
+      const html = await render(loadComponent(join(root, `packages/theme/layouts/${layout.id}.vue`)), { frontmatter: {} })
       expect(html).toContain('data-design="corporate"')
     }
   })
@@ -78,7 +78,7 @@ describe('Phase2 preset contract', () => {
     for (const preset of kitPresets) {
       themeConfig.variant = preset
       for (const layout of registry.slice(10)) for (const density of layout.density) {
-        const component = loadComponent(join(root, `packages/core/layouts/${layout.id}.vue`))
+        const component = loadComponent(join(root, `packages/theme/layouts/${layout.id}.vue`))
         const slots = { default: () => h('h1', 'Unique default') }
         for (const slot of layout.slots) slots[slot.name] = () => `unique-${slot.name}-payload`
         const html = await render(component, { frontmatter: { variant: 'balanced', density } }, slots)
@@ -98,13 +98,13 @@ describe('Phase2 preset contract', () => {
   })
   it('preserves legacy summary/end props and every slot', async () => {
     themeConfig.variant = 'default'
-    const summary = await render(loadComponent(join(root, 'packages/core/layouts/summary.vue')), { frontmatter: { title: 'Legacy title' }, takeaway: 'Takeaway', section: 'Section' }, { default: () => 'Lead', evidence: () => 'Evidence', request: () => 'Request' })
+    const summary = await render(loadComponent(join(root, 'packages/theme/layouts/summary.vue')), { frontmatter: { title: 'Legacy title' }, takeaway: 'Takeaway', section: 'Section' }, { default: () => 'Lead', evidence: () => 'Evidence', request: () => 'Request' })
     for (const text of ['Legacy title', 'Takeaway', 'Section', 'Lead', 'Evidence', 'Request']) expect(summary).toContain(text)
-    const end = await render(loadComponent(join(root, 'packages/core/layouts/end.vue')), { frontmatter: { title: 'Closing', subtitle: 'Contact', note: 'Note' } }, { default: () => 'Body' })
+    const end = await render(loadComponent(join(root, 'packages/theme/layouts/end.vue')), { frontmatter: { title: 'Closing', subtitle: 'Contact', note: 'Note' } }, { default: () => 'Body' })
     for (const text of ['Closing', 'Contact', 'Note', 'Body']) expect(end).toContain(text)
   })
   it('defines an identical semantic token contract and shares all geometry', () => {
-    const tokens = preset => readFileSync(join(root, `packages/core/designs/${preset}/tokens.css`), 'utf8')
+    const tokens = preset => readFileSync(join(root, `packages/theme/designs/${preset}/tokens.css`), 'utf8')
     const names = source => [...source.matchAll(/(--kit-[\w-]+):/g)].map(m => m[1]).sort()
     expect(names(tokens('editorial'))).toEqual(names(tokens('corporate')))
     for (const preset of kitPresets) {
@@ -113,7 +113,7 @@ describe('Phase2 preset contract', () => {
     }
   })
   it('generates identical content from the registry without changing Phase1', async () => {
-    const source = readFileSync(join(root, 'examples/phase2/slides.md'), 'utf8')
+    const source = readFileSync(join(root, 'examples/editorial-variant/slides.md'), 'utf8')
     expect(source.replace('variant: editorial', 'variant: corporate')).toBe(sampleDeck())
     expect(await checkDeck(source)).toEqual([])
   })

@@ -1,5 +1,5 @@
 ---
-theme: ../../
+theme: ../../packages/theme
 themeConfig:
   variant: corporate
   organization: Slidev Kit

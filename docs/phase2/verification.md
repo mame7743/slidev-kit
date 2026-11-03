@@ -7,8 +7,8 @@
 - `npx vitest run packages/core/tests/phase2.test.mjs packages/core/tests/phase1.test.mjs`: 12 tests成功。
 - `npm run verify`: 18ファイル84 tests + Vue/TypeScript型検査成功。
 - `npm run catalog:check`: 22生成ファイル一致。`npm run phase1:check` / `npm run phase2:check`: 成功。
-- `npm run build`: Corporateサンプルbuild成功（`examples/phase1/dist/`）。
-- `npx slidev build examples/phase2/slides.md --out dist/phase2`: Editorialサンプルbuild成功。Slidevのoutはデッキ相対なので実際の出力先は `examples/phase2/dist/phase2/`。
+- `npm run build`: Corporateサンプルbuild成功（`examples/core-layouts/dist/`）。
+- `npx slidev build examples/editorial-variant/slides.md --out dist/phase2`: Editorialサンプルbuild成功。Slidevのoutはデッキ相対なので実際の出力先は `examples/editorial-variant/dist/phase2/`。
 - `npm run phase2:browser`: 実Chromiumで両preset各10枚の表示/DOM/slot/表行数/画像ロード/overflow/色を確認。全16構造variant × 3密度 = 48組/preset（計96組）で本文不変・境界内を確認。
 - 同ブラウザ検査でMermaid shadow root内のラベル文字列重複なし、ラベル間の矩形重複なし、タイトル/出典との非重複、preset色を確認。長文挿入によるoverflow警告と入力保持も成功。
 - Slidev実PDF出力をpdf-libで解析し、両preset各10ページ、16:9、content stream存在を確認。

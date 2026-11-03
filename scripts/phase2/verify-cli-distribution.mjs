@@ -24,11 +24,13 @@ function run(command, args, cwd = work, expected = 0) {
 try {
   if (process.argv.includes('--fail-after-start')) throw new Error('Intentional verification failure')
   // Never execute lifecycle hooks in the real checkout: postpack deletes copied directories.
-  const archive = join(work, 'head.tar')
-  run('git', ['archive', '--format=tar', '-o', archive, 'HEAD', 'packages'], root)
-  run('tar', ['-xf', archive])
+  // Test the current worktree sources (including uncommitted migration changes).
+  cpSync(join(root, 'packages'), join(work, 'packages'), {
+    recursive: true,
+    filter: path => !path.split('/').some(part => ['node_modules', '.slidev', 'dist', '__pycache__'].includes(part)),
+  })
   const cli = join(work, 'packages/cli')
-  // Test the current whitelist fix against HEAD sources, without untracked/generated files.
+  // Test the current whitelist fix against current sources, without untracked/generated files.
   const manifest = JSON.parse(readFileSync(join(root, 'packages/cli/package.json'), 'utf8'))
   if (baseline) manifest.files = manifest.files.filter(entry => entry !== 'public')
   writeFileSync(join(cli, 'package.json'), JSON.stringify(manifest, null, 2))
@@ -51,7 +53,7 @@ try {
   for (const preset of ['corporate', 'editorial']) {
     const source = readFileSync(join(root, `examples/${preset === 'corporate' ? 'phase1' : 'phase2'}/slides.md`), 'utf8')
     assert(source.includes('/slidev-kit/pipeline.svg'), 'Fixture must exercise the distributed image')
-    const deck = source.replace('theme: ../../', 'theme: slidev-kit')
+    const deck = source.replace('theme: ../../packages/theme', 'theme: slidev-kit')
     assert.equal((await parse(deck)).slides.length, 10, 'Distribution fixture must contain ten slides')
     const path = join(project, `${preset}.md`)
     writeFileSync(path, deck)

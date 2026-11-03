@@ -3,11 +3,23 @@
 
 **Write content. Let design happen.**
 
-17レイアウトのプレビュー・コピペ例・設定・AI用メタデータです。[使い方](../docs/phase1/phase1-usage.md) / [サンプルデッキ](../examples/phase1/slides.md)。
+17レイアウトのプレビュー・コピペ例・設定・AI用メタデータです。[最初に動かす例](../examples/quickstart/slides.md) / [検証用の全レイアウト一覧](../examples/all-layouts/slides.md)。
 
 本文は標準Markdown、表、画像、MermaidとSlidevの名前付きslotだけで記述します。プレビュー画像は実ブラウザから生成しています。
 
-公開レイアウトの実体は `packages/core/layouts/*.vue`、共通描画は `packages/core/components/kit/` にあります。未登録実装を含む有効状態は [自動生成のレイアウト判定表](../docs/layout-inventory.md) を唯一の正として確認してください。
+**使い分け:** catalogはレイアウト単位の説明・プレビュー・コピペ素材です。複数のスライドを組み合わせた実行可能なデッキやデザイン・配布方法の実例は [examples](../examples/README.md) を参照してください。特に17レイアウトを通して見る例は [examples/all-layouts/slides.md](../examples/all-layouts/slides.md) にあります。
+
+公開レイアウトの実体は `packages/theme/layouts/*.vue`、共通描画は `packages/theme/components/kit/` にあります。未登録実装を含む有効状態は [自動生成のレイアウト判定表](../docs/layout-inventory.md) を唯一の正として確認してください。
+
+## ディレクトリ構成
+
+| パス | 用途 |
+|---|---|
+| `catalog/layouts/*.md` | 各レイアウトの説明つき一覧。用途・設定・注意点・AI向けメタデータを1ページにまとめ、コピペ用の例も本文中に掲載します。 |
+| `catalog/templates/*.md` | `slides.md` へそのまま貼れるコピー用の断片。ファイル単位でコピーしたいときに使います。 |
+| `catalog/previews/*.png` | 実ブラウザで描画して生成したプレビュー画像。手作業では作りません。 |
+
+表示内容は [レジストリ](../packages/theme/registry/layouts.json) を唯一の定義元とし、このREADME・`layouts`・`templates` を同じ定義から生成しています。`layouts` に例を埋め込み、同じ例を `templates` にもファイルとして置いているのは意図的です。`layouts` は「読んで選ぶ説明ページ」、`templates` は「そのままコピーする素材」で用途が違うため、両方を分けて生成しています。
 
 ## 構成・本文
 
@@ -58,4 +70,4 @@
 
 ## 更新方法
 
-唯一の定義元は [レジストリ](../packages/core/registry/layouts.json) と [JSON Schema](../packages/core/registry/layouts.schema.json) です。生成物を直接編集せず、`npm run catalog` を実行してください。`npm run catalog:check` が差分を検出します。画像は `npm run phase1:browser`（先頭10枚）と `npm run phase2:expansion:browser`（拡張7枚）で再生成します。
+唯一の定義元は [レジストリ](../packages/theme/registry/layouts.json) と [JSON Schema](../packages/theme/registry/layouts.schema.json) です。このREADME・`catalog/layouts`・`catalog/templates`・サンプルデッキは生成物なので直接編集せず、必要な生成だけ `npm run catalog` で行ってください。`npm run catalog:check` が差分を検出します。`catalog/previews` の画像はブラウザ描画で生成し、`npm run phase1:browser`（先頭10枚）と `npm run phase2:expansion:browser`（拡張7枚）で再生成します。カタログの物理パスは変えません。

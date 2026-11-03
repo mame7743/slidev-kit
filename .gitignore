@@ -3,7 +3,7 @@ dist/
 .slidev/
 .venv/
 *.pdf
-!examples/design-contract/exports/design-contract.pdf
+!examples/*/exports/*.pdf
 public/data/
 .DS_Store
 *.tgz

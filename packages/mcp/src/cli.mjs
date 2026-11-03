@@ -17,14 +17,16 @@ const require = createRequire(import.meta.url)
 const sourceRoot = dirname(fileURLToPath(import.meta.url))
 
 function kitFile(file) {
-  try { return join(dirname(require.resolve('slidev-kit/package.json')), file) }
-  catch {
-    const candidate = join(sourceRoot, '..', '..', 'cli', file)
-    if (existsSync(candidate)) return candidate
-    const coreFile = join(sourceRoot, '..', '..', 'core', file === 'scripts/check.mjs' ? 'check.mjs' : file)
-    if (existsSync(coreFile)) return coreFile
-    throw new Error(`slidev-kit の ${file} が見つかりません。`)
-  }
+  const workspace = join(sourceRoot, '..', '..')
+  const candidates = []
+  // 同梱tarball（CLI package）を優先し、開発リポジトリでは theme / cli / core へフォールバックする。
+  try { candidates.push(join(dirname(require.resolve('slidev-kit/package.json')), file)) } catch {}
+  candidates.push(join(workspace, 'theme', file))
+  candidates.push(join(workspace, 'cli', file))
+  candidates.push(join(workspace, 'core', file === 'scripts/check.mjs' ? 'check.mjs' : file))
+  const found = candidates.find((candidate) => existsSync(candidate))
+  if (!found) throw new Error(`slidev-kit の ${file} が見つかりません。`)
+  return found
 }
 
 function result(value) {

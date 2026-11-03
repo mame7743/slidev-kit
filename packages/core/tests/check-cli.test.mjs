@@ -22,8 +22,8 @@ function cli(source, expected = 0, flags = []) {
 }
 
 describe('real CLI checker contracts', () => {
-  it.each(['phase1', 'phase2'])('accepts %s sample via CLI entry', phase => {
-    cli(readFileSync(join(root, `examples/${phase}/slides.md`), 'utf8').replace('theme: ../../', `theme: ${root}`))
+  it.each([['phase1', 'core-layouts'], ['phase2', 'editorial-variant']])('accepts %s sample via CLI entry', (phase, example) => {
+    cli(readFileSync(join(root, `examples/${example}/slides.md`), 'utf8').replace('theme: ../../packages/theme', `theme: ${join(root, 'packages/theme')}`))
   })
   it('accepts H1, YAML mappings, structural variants, fences, and global density', () => {
     cli(deck('# Actual title\n\n```md\n::unknown::\n---\n```', 'variant: balanced\ndensity: compact\n'))
@@ -90,7 +90,7 @@ describe('real CLI checker contracts', () => {
     expect(cli(source.replace('layout: content', 'themeConfig:\n  density: tiny\nlayout: content'), 1)).toContain('unsupported density')
   })
   it('shares registry and parser behavior with authoring checks', async () => {
-    expect(registry).toEqual(JSON.parse(readFileSync(join(root, 'packages/core/registry/layouts.json'), 'utf8')))
+    expect(registry).toEqual(JSON.parse(readFileSync(join(root, 'packages/theme/registry/layouts.json'), 'utf8')))
     expect(await checkDeck(deck())).toEqual([])
   })
 })

@@ -1,14 +1,18 @@
-import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
-// GitHub npm-exec installs the repository root package; test its packed checkout form.
+// The distributable is the CLI package; pack the current worktree's packages in isolation.
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
-const work = mkdtempSync(join(tmpdir(), 'slidev-kit-github-e2e-'))
-const packed = spawnSync('npm', ['pack', '--pack-destination', work, '--ignore-scripts'], { cwd: root, encoding: 'utf8' })
-if (packed.status !== 0) throw new Error(`リポジトリ pack 失敗:\n${packed.stderr}`)
+const work = mkdtempSync(join(tmpdir(), 'slidev-kit-release-e2e-'))
+cpSync(join(root, 'packages'), join(work, 'packages'), {
+  recursive: true,
+  filter: path => !path.split('/').some(part => ['node_modules', '.slidev', 'dist', '__pycache__'].includes(part)),
+})
+const packed = spawnSync('npm', ['pack', '--pack-destination', work], { cwd: join(work, 'packages', 'cli'), encoding: 'utf8' })
+if (packed.status !== 0) throw new Error(`CLI pack 失敗:\n${packed.stderr}`)
 const tarball = join(work, packed.stdout.trim().split(/\r?\n/).at(-1))
 const designPacked = spawnSync('npm', ['pack', '--pack-destination', work, '--ignore-scripts'], { cwd: join(root, 'examples', 'design-library'), encoding: 'utf8' })
 if (designPacked.status !== 0) throw new Error(`共有デザイン pack 失敗:\n${designPacked.stderr}`)
@@ -24,12 +28,12 @@ try {
     dependencies: { 'slidev-kit': `file:${tarball}` },
   }))
   const installCli = run('npm', ['install', '--no-audit', '--no-fund'], work)
-  if (installCli.status !== 0) throw new Error(`GitHub CLI install 失敗:\n${installCli.stderr}`)
+  if (installCli.status !== 0) throw new Error(`CLI install 失敗:\n${installCli.stderr}`)
   const init = run('npx', ['slidev-kit', 'init', 'demo', '--kit', `file:${tarball}`], work)
   if (init.status !== 0) throw new Error(`init 失敗:\n${init.stderr}`)
   const templatePath = join(root, 'examples', 'template-library', 'templates', 'corporate')
   const templateInit = run('npx', ['slidev-kit', 'init', 'template-smoke', `--template=${templatePath}`], work)
-  if (templateInit.status !== 0) throw new Error(`GitHub template layout init 失敗:\n${templateInit.stderr}`)
+  if (templateInit.status !== 0) throw new Error(`template layout init 失敗:\n${templateInit.stderr}`)
   const templatePackage = JSON.parse(readFileSync(join(work, 'template-smoke', 'package.json'), 'utf8'))
   if (templatePackage.slidev.themeConfig.variant !== 'acme' || !readFileSync(join(work, 'template-smoke', 'designs', 'acme', 'index.ts'), 'utf8').includes('@example/slidev-designs/acme')) throw new Error('共有デザイン用テンプレートの生成に失敗しました')
   writeFileSync(join(work, 'demo', 'data', 'trend.csv'), 'month,value\n1月,10\n2月,20\n')
@@ -55,7 +59,7 @@ try {
   ].map(message => JSON.stringify(message)).join('\n') + '\n'
   const mcp = run('npx', ['slidev-kit', 'mcp'], join(work, 'demo'), protocol)
   if (mcp.status !== 0 || !mcp.stdout.includes('"name":"deck_info"')) throw new Error(`MCP 起動失敗:\n${mcp.stdout}\n${mcp.stderr}`)
-  console.log('e2e OK: GitHub package → init → custom design build → MCP')
+  console.log('e2e OK: released CLI tarball → init → custom design build → MCP')
 } finally {
   rmSync(work, { recursive: true, force: true })
 }

@@ -15,7 +15,7 @@
 | ロードマップ | 標準Markdown表をCSSで整える。表を独自データ構造へ変換しない |
 | カード | 標準の名前付きスロットを使用。見出しを正規表現で分割しない |
 | プレビュー・HMR・ビルド・PDF | Slidev CLI / Vite / Playwrightに委譲 |
-| レイアウト | `packages/core/layouts/` の公開Vue SFCと共有 `components/kit/KitSlide.vue` |
+| レイアウト | `packages/theme/layouts/` の公開Vue SFCと共有 `components/kit/KitSlide.vue` |
 | デザイン | `themeConfig.variant: corporate` と共有CSS Custom Properties |
 | 仕様・カタログ | JSON Schema + レジストリからMarkdown例、カタログ、デッキを生成 |
 | 入力検査 | Slidev公式parserでスライドを解析し、レジストリのID/variant/density/slotを検査 |
@@ -24,13 +24,14 @@
 ## 最小構成（既存構造を再利用）
 
 ```text
-packages/core/
+packages/theme/
   layouts/                  # registry登録済みの公開ID（registry外はextras/）
   components/kit/KitSlide.vue
   designs/corporate/         # tokens.css + corporate.css + 既存Design契約への登録
   registry/                 # layouts.schema.json / layouts.json（10種の唯一の定義元）
   setup/mermaid.ts          # 標準Mermaid設定。shadow DOMのSVGは外側CSSで変更できない
   public/slidev-kit/        # Markdown画像で利用するサンプル画像
+packages/core/               # Node.jsコア（init・検査・deck操作）
 docs/phase1/                # 設計・執筆ガイド・検証結果
 scripts/phase1/
   generate-catalog.mjs       # docs / templates / sampleの再生成・差分検査
@@ -41,14 +42,14 @@ catalog/
   layouts/                  # GitHubで読める説明・プレビュー・コピペ例
   templates/                # 各スライドのMarkdown
   previews/                 # 実ブラウザのスクリーンショット
-examples/phase1/slides.md    # 10レイアウトの実行可能なカタログ
+examples/core-layouts/slides.md    # 10レイアウトの実行可能なカタログ
 ```
 
 既存のcover/content/comparisonはCorporate選択時のみ新しい共通構造へ切り替える。それ以外の既存デッキは従来実装を使用する。追加7 IDは共通部品を薄くラップする。構造は `data-layout` / `data-variant`、装飾はCSS変数とCorporate CSSに分離する。新デザインはこの共通DOMを再利用できる。将来の40 IDを先行実装したり、未実装を利用可能として登録しない。
 
 ## 共通スキーマ
 
-`packages/core/registry/layouts.schema.json` はJSON Schema draft-07。ID、カテゴリ、用途、slot（必須/任意）、対応variant、density、情報量目安、注意点、Markdown template、previewパスを管理する。既定variantは配列の先頭。`relaxed / normal / compact` は余白と文字サイズだけを変更する。レイアウトvariantと既存 `themeConfig.variant`（デザイン）の意味を混同しない。
+`packages/theme/registry/layouts.schema.json` はJSON Schema draft-07。ID、カテゴリ、用途、slot（必須/任意）、対応variant、density、情報量目安、注意点、Markdown template、previewパスを管理する。既定variantは配列の先頭。`relaxed / normal / compact` は余白と文字サイズだけを変更する。レイアウトvariantと既存 `themeConfig.variant`（デザイン）の意味を混同しない。
 
 レジストリを将来のAI選択の入力として利用できるが、AI依存は追加しない。ブラウザ上の見た目はスキーマ検査では保証せず、実レンダリングを別途検査する。
 

@@ -5,7 +5,7 @@ import { root, registry, sampleDeck, checkDeck } from '../phase1/phase1-lib.mjs'
 
 assert.equal(registry.length, 17)
 assert.deepEqual(registry.slice(10).map(x => x.id), ['agenda', 'summary', 'end', 'quote', 'metrics', 'process', 'code'])
-const source = readFileSync(join(root, 'examples/phase2-expansion/slides.md'), 'utf8')
+const source = readFileSync(join(root, 'examples/all-layouts/slides.md'), 'utf8')
 assert.equal(source, sampleDeck(registry))
 for (const preset of ['corporate', 'editorial']) {
   assert.deepEqual(await checkDeck(source.replace('variant: corporate', `variant: ${preset}`)), [])

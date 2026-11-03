@@ -1,7 +1,7 @@
 ---
-theme: ../../
+theme: ../../packages/theme
 themeConfig:
-  variant: editorial
+  variant: corporate
   organization: Slidev Kit
 aspectRatio: 16/9
 canvasWidth: 1280

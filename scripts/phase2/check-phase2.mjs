@@ -6,7 +6,7 @@ import { root, sampleDeck, checkDeck } from '../phase1/phase1-lib.mjs'
 export function editorialDeck() {
   return sampleDeck().replace('variant: corporate', 'variant: editorial')
 }
-const path = join(root, 'examples/phase2/slides.md')
+const path = join(root, 'examples/editorial-variant/slides.md')
 if (process.argv.includes('--write')) {
   mkdirSync(join(root, 'examples/phase2'), { recursive: true })
   writeFileSync(path, editorialDeck())

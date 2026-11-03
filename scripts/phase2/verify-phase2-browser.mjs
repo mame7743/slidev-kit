@@ -19,7 +19,7 @@ let deckPath = `examples/${preset === 'corporate' ? 'phase1' : 'phase2'}/slides.
 let servedPath = deckPath
 const matrix = []
 if (expansion) {
-  const main = sampleDeck(registry).replace('theme: ../../', `theme: ${root}`).replace('variant: corporate', `variant: ${preset}`)
+  const main = sampleDeck(registry).replace('theme: ../../packages/theme', `theme: ${join(root, 'packages/theme')}`).replace('variant: corporate', `variant: ${preset}`)
   deckPath = join(outputDir, 'slides.md')
   writeFileSync(deckPath, main)
   for (const layout of registry.slice(10)) for (const variant of layout.variants) for (const density of layout.density) {

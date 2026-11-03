@@ -82,7 +82,7 @@ density: normal # relaxed / normal / compact
 | process | first→second→thirdのDOM順。番号/方向はCSS装飾、工程名は重複生成しない | [template](../../catalog/templates/process.md) |
 | code | codeに標準fence1個、explanationに解説。コード側が広い2panel、実行なし | [template](../../catalog/templates/code.md) |
 
-[公開17枚の実装例](../../examples/phase2-expansion/slides.md)はレジストリから生成する。既存[Phase1 10枚](../../examples/phase1/slides.md)と[Phase2 10枚](../../examples/phase2/slides.md)は固定して本文/画像を保持する。
+[公開17枚の実装例](../../examples/all-layouts/slides.md)はレジストリから生成する。既存[Phase1 10枚](../../examples/core-layouts/slides.md)と[Phase2 10枚](../../examples/editorial-variant/slides.md)は固定して本文/画像を保持する。
 
 情報量は表の目安を基本とする。目安の超過だけで内容を削除・省略しない。runtimeは描画領域のはみ出しをconsole警告と`data-overflow`で知らせる（情報量の文字数推定はしない）。著者がスライド分割などを判断する。agenda項目数/必須slot/fence等の**構造契約違反はエラー**、単なる長い本文はoverflow警告でありcheckerの文字数上限エラーではない。
 

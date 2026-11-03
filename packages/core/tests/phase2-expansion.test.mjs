@@ -9,8 +9,8 @@ describe('Phase2 expansion contracts', () => {
   it('appends only the seven implemented IDs, preserving original ten fixtures', async () => {
     expect(added.map(x => x.id)).toEqual(['agenda', 'summary', 'end', 'quote', 'metrics', 'process', 'code'])
     expect(registry).toHaveLength(17)
-    expect(readFileSync(join(root, 'examples/phase1/slides.md'), 'utf8')).toBe(sampleDeck())
-    expect(readFileSync(join(root, 'examples/phase2-expansion/slides.md'), 'utf8')).toBe(sampleDeck(registry))
+    expect(readFileSync(join(root, 'examples/core-layouts/slides.md'), 'utf8')).toBe(sampleDeck())
+    expect(readFileSync(join(root, 'examples/all-layouts/slides.md'), 'utf8')).toBe(sampleDeck(registry))
     for (const item of added) {
       expect(item.variants).toEqual(['balanced'])
       expect(await checkDeck(slideTemplate(item))).toEqual([])
